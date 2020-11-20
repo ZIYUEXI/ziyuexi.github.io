@@ -1,201 +1,37 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+{% extends '_layout.swig' %}
+{% import '_macro/post.swig' as post_template %}
+{% import '_macro/sidebar.swig' as sidebar_template %}
 
-  
-  <title>my-first-blog | 个人学习博客</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="利用C语言和PHP语言编写九九乘法表C语言1234567891011121314151617#include &lt;stdio.h&gt;int main()&amp;#123;    int a,b;&#x2F;&#x2F;定义两个相乘数变量    int sum;&#x2F;&#x2F;定义输出结果    for(a &#x3D; 1;a &lt;&#x3D; 9;a++)&#x2F;&#x2F;输出第一个乘数    &amp;#123;        for(b &#x3D; 1;b &lt;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="my-first-blog">
-<meta property="og:url" content="https://ziyuexi.github.io/2020/11/20/my-first-blog/index.html">
-<meta property="og:site_name" content="个人学习博客">
-<meta property="og:description" content="利用C语言和PHP语言编写九九乘法表C语言1234567891011121314151617#include &lt;stdio.h&gt;int main()&amp;#123;    int a,b;&#x2F;&#x2F;定义两个相乘数变量    int sum;&#x2F;&#x2F;定义输出结果    for(a &#x3D; 1;a &lt;&#x3D; 9;a++)&#x2F;&#x2F;输出第一个乘数    &amp;#123;        for(b &#x3D; 1;b &lt;">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-11-20T05:39:26.000Z">
-<meta property="article:modified_time" content="2020-11-20T05:45:21.736Z">
-<meta property="article:author" content="ziyuexi">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="个人学习博客" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
 
-<meta name="generator" content="Hexo 5.2.0"></head>
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">个人学习博客</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://ziyuexi.github.io"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-my-first-blog" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/11/20/my-first-blog/" class="article-date">
-  <time datetime="2020-11-20T05:39:26.000Z" itemprop="datePublished">2020-11-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      my-first-blog
-    </h1>
-  
+{% block page_class %}page-post-detail{% endblock %}
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="利用C语言和PHP语言编写九九乘法表"><a href="#利用C语言和PHP语言编写九九乘法表" class="headerlink" title="利用C语言和PHP语言编写九九乘法表"></a>利用C语言和PHP语言编写九九乘法表</h2><h3 id="C语言"><a href="#C语言" class="headerlink" title="C语言"></a>C语言</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int a,b;//定义两个相乘数变量</span><br><span class="line">    int sum;//定义输出结果</span><br><span class="line">    <span class="keyword">for</span>(a = 1;a &lt;= 9;a++)//输出第一个乘数</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(b = 1;b &lt;= a;b++)//输出第二个乘数b随a的值变化</span><br><span class="line">        &#123;</span><br><span class="line">            sum = a * b;//计算</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d x %d = %d\t&quot;</span>,a,b,sum);//输出结果</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);//换行</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输出结果<br>1 x 1 = 1<br>2 x 1 = 2 2 x 2 = 4<br>3 x 1 = 3 3 x 2 = 6 3 x 3 = 9<br>4 x 1 = 4 4 x 2 = 8 4 x 3 = 12 4 x 4 = 16<br>5 x 1 = 5 5 x 2 = 10 5 x 3 = 15 5 x 4 = 20 5 x 5 = 25<br>6 x 1 = 6 6 x 2 = 12 6 x 3 = 18 6 x 4 = 24 6 x 5 = 30 6 x 6 = 36<br>7 x 1 = 7 7 x 2 = 14 7 x 3 = 21 7 x 4 = 28 7 x 5 = 35 7 x 6 = 42 7 x 7 = 49<br>8 x 1 = 8 8 x 2 = 16 8 x 3 = 24 8 x 4 = 32 8 x 5 = 40 8 x 6 = 48 8 x 7 = 56 8 x 8 = 64<br>9 x 1 = 9 9 x 2 = 18 9 x 3 = 27 9 x 4 = 36 9 x 5 = 45 9 x 6 = 54 9 x 7 = 63 9 x 8 = 72 9 x 9 = 81</p>
-<h3 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="variable">$a</span> = 1;<span class="variable">$a</span> &lt;= 9;<span class="variable">$a</span>++)//定义两个相乘数变量输出第一个乘数</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(<span class="variable">$b</span> = 1;<span class="variable">$b</span> &lt;= <span class="variable">$a</span>;<span class="variable">$b</span>++)//输出第二个乘数b随a的值变化</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="variable">$sum</span> = <span class="variable">$a</span> * <span class="variable">$b</span>;//计算</span><br><span class="line">            <span class="built_in">echo</span> <span class="string">&quot;<span class="variable">$a</span> x <span class="variable">$b</span> = <span class="variable">$sum</span> &amp;nbsp&amp;nbsp&amp;nbsp&amp;nbsp&quot;</span>;//输出结果&amp;nbsp是空格</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">&#x27;&lt;br&gt;&#x27;</span>;//换行</span><br><span class="line">    &#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
-<p>输出结果<br>1 x 1 = 1<br>2 x 1 = 2 2 x 2 = 4<br>3 x 1 = 3 3 x 2 = 6 3 x 3 = 9<br>4 x 1 = 4 4 x 2 = 8 4 x 3 = 12 4 x 4 = 16<br>5 x 1 = 5 5 x 2 = 10 5 x 3 = 15 5 x 4 = 20 5 x 5 = 25<br>6 x 1 = 6 6 x 2 = 12 6 x 3 = 18 6 x 4 = 24 6 x 5 = 30 6 x 6 = 36<br>7 x 1 = 7 7 x 2 = 14 7 x 3 = 21 7 x 4 = 28 7 x 5 = 35 7 x 6 = 42 7 x 7 = 49<br>8 x 1 = 8 8 x 2 = 16 8 x 3 = 24 8 x 4 = 32 8 x 5 = 40 8 x 6 = 48 8 x 7 = 56 8 x 8 = 64<br>9 x 1 = 9 9 x 2 = 18 9 x 3 = 27 9 x 4 = 36 9 x 5 = 45 9 x 6 = 54 9 x 7 = 63 9 x 8 = 72 9 x 9 = 81</p>
 
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://ziyuexi.github.io/2020/11/20/my-first-blog/" data-id="ckhpwry5l0002lcw13jnyfo1k" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-  
-    <a href="/2020/11/19/bolg/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">bolg</div>
-    </a>
-  
-</nav>
+{% block content %}
 
-  
-</article>
+  <div id="posts" class="posts-expand">
+    {{ post_template.render(page) }}
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li></ul>
+    <div class="post-spread">
+      {% if theme.jiathis %}
+        {% include '_partials/share/jiathis.swig' %}
+      {% elseif theme.baidushare %}
+        {% include '_partials/share/baidushare.swig' %}
+      {% elseif theme.add_this_id %}
+        {% include '_partials/share/add-this.swig' %}
+      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
+        {% include '_partials/share/duoshuo_share.swig' %}
+      {% endif %}
     </div>
   </div>
 
+{% endblock %}
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2020/11/20/my-first-blog/">my-first-blog</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/19/bolg/">bolg</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+{% block sidebar %}
+  {{ sidebar_template.render(true) }}
+{% endblock %}
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2020 ziyuexi<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-  </div>
-</body>
-</html>
+{% block script_extra %}
+  {% include '_scripts/pages/post-details.swig' %}
+{% endblock %}
