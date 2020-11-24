@@ -160,6 +160,137 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/sqli-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ziyuexi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/24/sqli-3/" class="post-title-link" itemprop="url">sqli-3</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-24 16:35:40 / 修改时间：16:50:43" itemprop="dateCreated datePublished" datetime="2020-11-24T16:35:40+08:00">2020-11-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/D560F58E3C3541ED8219A7E8B4BE49AC/54" alt="1"><br>上来还是先输入?id=1’<br>得到’’1’’)xxxxx’<br>左右两边引号去掉在去掉自己输入的1’得到’ ‘)xxxxx<br>所以我们知道需要在id=1后面加上’)</p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/B45013C3FC2D4D618D9EA3522E3B8703/57" alt="1"><br>继续使用order by查看有多少列</p>
+<h3 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/69A6939C79B94FB69A5F29289C8D3E3F/61" alt="1"><br>这里出了个错误<br>两个或多个select查询进行union时，查询的列不对应。两个select进行union时，两个select的查询出的列必须相对应。<br>说白了就是在union select后面少了个1，这个1必须得存在和后面的3相对应<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/341B68952B3B4E23B3C295584F931A94/60" alt="1"><br>这样就能正常运行了</p>
+<h3 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/DDE3FA503EDE4D0BB9D17918CF21566F/63" alt="1"><br>正常查询security</p>
+<h3 id="第五步"><a href="#第五步" class="headerlink" title="第五步"></a>第五步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/71C5548DF8B44609B01565CF504C0A39/66" alt="1"><br>然后查询users</p>
+<h3 id="第六步"><a href="#第六步" class="headerlink" title="第六步"></a>第六步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/D7AB946DD4774F9EBE0F460F131CD68A/67" alt="1"></p>
+<p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/CCF56445FD14490EBB40FD8BE43B0A08/69" alt="1"><br>爆破出用户名和密码</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>和sqli-1 sqli-2差不多仅仅是id=1后面加不加引号和括号的区别</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/sqli-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ziyuexi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/24/sqli-2/" class="post-title-link" itemprop="url">sqli-2</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-24 16:13:43 / 修改时间：16:35:07" itemprop="dateCreated datePublished" datetime="2020-11-24T16:13:43+08:00">2020-11-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/85109EC2A33D4F16AD4D6F89A412DA9F/33" alt="1"><br>正常输入?id=1’<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/491F225F12904FDDB4E7F16EC1B47D09/35" alt="1"><br>可以看见’’LIMIT 0,1’<br>是可以进行sql注入的<br>我们把左右两边单引号去掉<br>发现我们输入的1并不在里面可以判断为数字型<br>所以我们这里使用的所有语法都要去掉引号</p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>输入order by<br>判断有多少列<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/4B8ACC3B46C94EDDAAA7E7A47CCD50F2/37" alt="1"></p>
+<h3 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h3><p>使用union select查询information_schema<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/2E1DDB2A2F334ABD844411076C8F8776/39" alt="1"></p>
+<h3 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h3><p>再次看到security可以对其进行查询<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/0ACD6FF0C4AC4459B4B855B748691519/48" alt="1"></p>
+<h3 id="第五步"><a href="#第五步" class="headerlink" title="第五步"></a>第五步</h3><p>继续查询users<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/BD414C199597424E8A1EB9AB9AD04DE8/47" alt="1"></p>
+<h3 id="第六步"><a href="#第六步" class="headerlink" title="第六步"></a>第六步</h3><p>查询password和username<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/231C7C60B19F49E1AB78E9C8D2409508/49" alt="1"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>语法和sqli-1仅仅是加不加单引号的区别</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/sql-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -669,7 +800,7 @@ username=&#39;&#39; ;DROP DATABASE (DB Name) --&#39; and password=&#39;&#39;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
