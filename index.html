@@ -160,7 +160,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/25/sqli-4/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/25/ptf/PTF-web-1-6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -174,7 +174,82 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/25/sqli-4/" class="post-title-link" itemprop="url">sqli-4</a>
+            <a href="/2020/11/25/ptf/PTF-web-1-6/" class="post-title-link" itemprop="url">PTF-web-1-6</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-25 18:48:09 / 修改时间：19:30:09" itemprop="dateCreated datePublished" datetime="2020-11-25T18:48:09+08:00">2020-11-25</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="第一题"><a href="#第一题" class="headerlink" title="第一题"></a>第一题</h2><p><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/F2DFAD43A0944DB5B19164AC0D806EE3/109" alt="1"><br>打开场景后发现flag is not here我们可以使用F12打开网站的源码可以在下面看到我们要找的flag当然可以使用burn进行抓包找出flag也是可以的。</p>
+<h2 id="第二题"><a href="#第二题" class="headerlink" title="第二题"></a>第二题</h2><p><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/0C528EA8FA7D486CBBAEB14C962C3D17/112" alt="1"></p>
+<h3 id="科普"><a href="#科普" class="headerlink" title="科普"></a>科普</h3><p>robots协议也叫robots.txt是一种存放于网站根目录下的ASCII编码的文本文件，它通常告诉网络，此网站中的哪些内容是不应被搜索引擎的获取的，哪些是可以被获取的。URL是大小写敏感的，所以robots.txt的文件名应统一为小写。robots.txt应放置于网站的根目录下。<br><br><br>所以在网址后面加入robots.txt可以进行查询得到f1ag_1s_h3re.php进而再将它放到网址上<br><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/156C48491EC54A58B4EACF4AACF6227B/91" alt="1"><br>得到FLAG</p>
+<h2 id="第三题"><a href="#第三题" class="headerlink" title="第三题"></a>第三题</h2><p><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/F23309FA28AD4E22AFA45B13ABD3089B/93" alt="1"></p>
+<h3 id="科普-1"><a href="#科普-1" class="headerlink" title="科普"></a>科普</h3><p>如果网站存在备份文件，常见的备份文件后缀名有：<em>git</em> <em>svn</em> <em>swp</em> <em>bak</em> <em>bash_history</em> <em>bkf</em></p>
+<hr>
+我们在index.php后面不断尝试以上后缀
+
+<p><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/ED6B46BC43C4414BB7AAB476B18BB608/95" alt="1"><br>得到flag</p>
+<h2 id="第四题"><a href="#第四题" class="headerlink" title="第四题"></a>第四题</h2><p><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/3EB5E6188A0141C4AC59488FA9839145/99" alt="1"></p>
+<h3 id="科普-2"><a href="#科普-2" class="headerlink" title="科普"></a>科普</h3><p>Cookie类型为“小型文本文件”，是某些网站为了辨别用户身份，进行跟踪而储存在用户本地终端上的数据，由用户客户端计算机暂时或永久保存的信息。这可不是夹心饼干哦！</p>
+<hr>
+
+<p><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/0A0A7A7DC3434B9EAD7FE9FA39EF616B/97" alt="1"><br>打开burn进行抓包可以看见一个cookie.php文件<br>在URL后面加入cookie.php然后看到See the http response我们再进行抓包</p>
+<p><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/3CAEE50A07564716893C473203F83FDF/101" alt="1"><br>就可以得到flag</p>
+<h2 id="第五题"><a href="#第五题" class="headerlink" title="第五题"></a>第五题</h2><p><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/0A6892A8A1BA499DB040B8EEF928D214/115" alt="1"><br>使用火狐浏览器（谷歌或者抓包也可以）<br>可以看到有个disable“”我们将其删除<br><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/E704CE00C6F94821BC0E1D07F1CC2C6F/118" alt="1"><br>就可以得到flag</p>
+<h2 id="第六题"><a href="#第六题" class="headerlink" title="第六题"></a>第六题</h2><p><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/FDD91809AA3A4561B352CF4A5741539B/103" alt="1"><br>通过题目信息我们可以知道密码被设置为弱密码<br>我们先随便输入一些信息看看能否有一些提示<br><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/1F8AD9BE6FE748AE9B1D06A32E5033F1/105" alt="1"><br>提示我们用户名必须为admin这就为我们破解密码提供很多便利<br><img src="http://note.youdao.com/yws/public/resource/2fa01c9185b5b20bf4045e42bef5b0e8/xmlnote/0C4DFF0D1F124E9DBB685ACE79877DA8/107" alt="1"><br>我们通过burn进行爆破就可以把密码爆破出来<br>##总结<br>这些题目难度不是很高主要是对网站和web基础进行考察。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/25/sqli/sqli-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ziyuexi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/25/sqli/sqli-4/" class="post-title-link" itemprop="url">sqli-4</a>
         </h2>
 
         <div class="post-meta">
@@ -225,7 +300,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/sqli-3/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/sqli/sqli-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -239,7 +314,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/24/sqli-3/" class="post-title-link" itemprop="url">sqli-3</a>
+            <a href="/2020/11/24/sqli/sqli-3/" class="post-title-link" itemprop="url">sqli-3</a>
         </h2>
 
         <div class="post-meta">
@@ -291,7 +366,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/sqli-2/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/sqli/sqli-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -305,7 +380,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/24/sqli-2/" class="post-title-link" itemprop="url">sqli-2</a>
+            <a href="/2020/11/24/sqli/sqli-2/" class="post-title-link" itemprop="url">sqli-2</a>
         </h2>
 
         <div class="post-meta">
@@ -356,7 +431,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/sql-1/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/sqli/sql-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -370,7 +445,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/11/24/sql-1/" class="post-title-link" itemprop="url">sql-1</a>
+            <a href="/2020/11/24/sqli/sql-1/" class="post-title-link" itemprop="url">sql-1</a>
         </h2>
 
         <div class="post-meta">
@@ -865,7 +940,7 @@ username=&#39;&#39; ;DROP DATABASE (DB Name) --&#39; and password=&#39;&#39;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
