@@ -160,6 +160,71 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/25/sqli-4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ziyuexi">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/11/25/sqli-4/" class="post-title-link" itemprop="url">sqli-4</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-11-25 12:39:59 / 修改时间：13:23:30" itemprop="dateCreated datePublished" datetime="2020-11-25T12:39:59+08:00">2020-11-25</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="SQLI-4"><a href="#SQLI-4" class="headerlink" title="SQLI-4"></a>SQLI-4</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/E52FE7AFA53F48A5849A5F2B8577D6B2/73" alt="1"><br>上来先试一试有没有sql注入的漏洞使用?id=1’竟然没有报错<br><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/4D8C919CE5FB4BC9980AE2BDCB7FAB1B/75" alt="1"><br>经过多次修改终于让SQL进行报错得到’1”)xxxxx’左右单引号去掉在去掉1得到”)xxxxx这个就是我们将要使用sql注入的正确格式</p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/ED550F8404CC4652A10C55AAE14D0D22/77" alt="1"><br>依旧是使用order by 语法得到有3列</p>
+<h3 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/16685DAB4BA248CF9E50FF293402B8DA/80" alt="1"><br>使用union select</p>
+<h3 id="第五步"><a href="#第五步" class="headerlink" title="第五步"></a>第五步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/7E75E96B91BA42E38890E0475C154E46/79" alt="1"><br>爆破出security</p>
+<h3 id="第六步"><a href="#第六步" class="headerlink" title="第六步"></a>第六步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/C05AF9D7594E404FB6B8663B52097C3B/82" alt="1"><br>爆破出users</p>
+<h3 id="第七步"><a href="#第七步" class="headerlink" title="第七步"></a>第七步</h3><p><img src="http://note.youdao.com/yws/public/resource/1c471452b569a01eac0465e52034174c/xmlnote/BEC093D451794C1A947323836EC164D0/84" alt="1"><br>爆破出password和username</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>依旧是在?id=1上有微小的差异其他整体完全一样</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/24/sqli-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -800,7 +865,7 @@ username=&#39;&#39; ;DROP DATABASE (DB Name) --&#39; and password=&#39;&#39;
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
