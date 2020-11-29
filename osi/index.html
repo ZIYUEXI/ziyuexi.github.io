@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="简介国际标准化组织(ISO)制定了OSI模型，该模型定义了不同计算机互联的标准，是设计和描述计算机网络通信的基本框架。OSI模型把网络通信的工作分为7层，分别是物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。这是一种事实上被TCP&#x2F;IP 4层模型淘汰的协议。在当今世界上没有大规模使用。 七层结构 应用层应用层为用户提供网络管理、文件传输、事务处理等服务。网络应用层是OSI的最高层，为网">
+<meta property="og:type" content="website">
+<meta property="og:title" content="OSI">
+<meta property="og:url" content="http://example.com/osi/index.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="简介国际标准化组织(ISO)制定了OSI模型，该模型定义了不同计算机互联的标准，是设计和描述计算机网络通信的基本框架。OSI模型把网络通信的工作分为7层，分别是物理层、数据链路层、网络层、传输层、会话层、表示层和应用层。这是一种事实上被TCP&#x2F;IP 4层模型淘汰的协议。在当今世界上没有大规模使用。 七层结构 应用层应用层为用户提供网络管理、文件传输、事务处理等服务。网络应用层是OSI的最高层，为网">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/d490d6d3803f1b210e9b7c70905f00db/xmlnote/A0FE11440F5946AAAEA8524012D1616D/122">
+<meta property="og:image" content="http://note.youdao.com/yws/public/resource/d490d6d3803f1b210e9b7c70905f00db/xmlnote/022CF13245A147F498C2A8201820690F/125">
+<meta property="article:published_time" content="2020-11-29T13:26:28.000Z">
+<meta property="article:modified_time" content="2020-11-29T14:18:55.822Z">
+<meta property="article:author" content="ziyuexi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://note.youdao.com/yws/public/resource/d490d6d3803f1b210e9b7c70905f00db/xmlnote/A0FE11440F5946AAAEA8524012D1616D/122">
+
+<link rel="canonical" href="http://example.com/osi/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>OSI | blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">OSI
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>国际标准化组织(ISO)制定了OSI模型，该模型定义了不同计算机互联的标准，是设计和描述计算机网络通信的基本框架。OSI模型把网络通信的工作分为7层，分别是<strong>物理层</strong>、<strong>数据链路层</strong>、<strong>网络层</strong>、<strong>传输层</strong>、<strong>会话层</strong>、<strong>表示层</strong>和<strong>应用层</strong>。<br><em>这是一种事实上被TCP/IP 4层模型淘汰的协议。在当今世界上没有大规模使用。</em></p>
+<h1 id="七层结构"><a href="#七层结构" class="headerlink" title="七层结构"></a>七层结构</h1><p><img src="http://note.youdao.com/yws/public/resource/d490d6d3803f1b210e9b7c70905f00db/xmlnote/A0FE11440F5946AAAEA8524012D1616D/122" alt="1"></p>
+<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><p>应用层为用户提供网络管理、文件传输、事务处理等服务。网络应用层是OSI的<strong>最高层</strong>，为网络用户之间的通信提供专用的程序。应用层的内容主要取决于用户的各自需要，这一层设计的主要问题是分布数据库、分布计算技术、网络操作系统和分布操作系统、远程文件传输、电子邮件、终端电话及远程作业登录与控制等。<br>在OSI的7个层次中，应用层是最复杂的，所包含的应用层协议也最多。<br>应用层为<em>操作系统和网络应用程序</em>提供访问网络服务的接口。<br>应用层协议的代表包括:<strong>Telnet、FTP、HTTP、SNMP、DNS</strong>等。</p>
+<h2 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h2><p>表示层对<strong>应用层</strong>提供服务接收来自<strong>会话层</strong>的服务。表示层要完成某些特定的功能，主要有不同数据编码格式的转换，提供数据压缩、解压缩服务，对数据进行加密、解密。<br>例如图像格式的显示，就是由位于表示层的协议来支持。<br>表示层为应用层提供服务包括<strong>语法选择、语法转换</strong>等。语法选择是提供一种初始语法和以后修改这种选择的手段。语法转换涉及代码转换和字符集的转换、数据格式的修改以及对数据结构操作的适配。</p>
+<h2 id="会话层"><a href="#会话层" class="headerlink" title="会话层"></a>会话层</h2><p>在会话层及以上的高层次中统称为报文。会话层不参与具体的传输，它提供包括<strong>访问验证</strong>和<strong>会话管理</strong>在内的建立和维护应用之间通信的机制。<br>如服务器验证用户登录便是由会话层完成的。<br>会话层提供的服务可使应用建立和维持会话，并能使会话获得同步。会话层使用校验点可使通信会话在通信失效时从校验点继续恢复通信。这种能力对于传送大的文件极为重要。<strong>会话层</strong>、<strong>表示层</strong>、<strong>应用层</strong>构成开放系统的高3层。会话层主要的功能是<strong>对话管理</strong>，<strong>数据流同步</strong>和<strong>重新同步</strong>。</p>
+<h3 id="会话层的主要功能"><a href="#会话层的主要功能" class="headerlink" title="会话层的主要功能:"></a>会话层的主要功能:</h3><p><strong>会话层连接到传输层的映射;</strong></p>
+<p><strong>会话连接的流量控制;</strong></p>
+<p><strong>数据传输;</strong></p>
+<p><strong>会话连接恢复与释放;</strong></p>
+<p><strong>会话连接管理、差错控制。</strong></p>
+<h3 id="为会话实体间建立连接、为给两个对等会话服务用户建立一个会话连接，应该做如下几项工作"><a href="#为会话实体间建立连接、为给两个对等会话服务用户建立一个会话连接，应该做如下几项工作" class="headerlink" title="为会话实体间建立连接、为给两个对等会话服务用户建立一个会话连接，应该做如下几项工作:"></a>为会话实体间建立连接、为给两个对等会话服务用户建立一个会话连接，应该做如下几项工作:</h3><p><strong>1.将会话地址映射为运输地址;</strong></p>
+<p><strong>2.选择需要的运输服务质量参数;</strong></p>
+<p><strong>3.对会话参数进行协商;</strong></p>
+<p><strong>4.识别各个会话连接;</strong></p>
+<p><strong>5.传送有限的透明用户数据;</strong></p>
+<p><strong>6.数据传输阶段。</strong></p>
+<p>用户数据单元为<strong>SSDU</strong>，而协议数据单元为<strong>SPDU</strong>。会话用户之间的数据传送过程是将<strong>SSDU</strong>转变成<strong>SPDU</strong>进行的。</p>
+<h2 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h2><p>传输层是网络体系结构中高低层之间衔接的一个接口层。用一个寻址机制来标识<strong>端口号</strong>。传输层是整个分层体系协议的核心，没有传输层整个分层协议就没有意义。<br>传输层的数据单元是由数据组织成的数据段这个层负责获取全部信息，因此，它必须跟踪数据单元碎片、乱序到达的数据包和其它在传输过程中可能发生的危险。</p>
+<h3 id="传输层获得下层提供的服务包括"><a href="#传输层获得下层提供的服务包括" class="headerlink" title="传输层获得下层提供的服务包括:"></a>传输层获得下层提供的服务包括:</h3><p><strong>发送和接收正确的数据块分组序列，并用其构成传输层数据;</strong></p>
+<p><strong>获得网络层地址，包括虚拟信道和逻辑信道。</strong></p>
+<h3 id="传输层向上层提供的服务包括"><a href="#传输层向上层提供的服务包括" class="headerlink" title="传输层向上层提供的服务包括:"></a>传输层向上层提供的服务包括:</h3><p><strong>无差错的有序的报文收发;</strong></p>
+<p><strong>提供传输连接;</strong></p>
+<p><strong>进行流量控制。</strong></p>
+<p>传输层协议的代表包括:<strong>TCP、UDP、SPX</strong>等。</p>
+<p>传输层的主要功能是<em>从会话层接收数据，根据需要把数据切成较小的数据片，并把数据传送给网络层，确保数据片正确到达网络层，从而实现两层数据的透明传送。</em></p>
+<p>传输层也称为<strong>运输层</strong>。传输层是介于低三层通信子网系统和高三层之间的一层，是源端到目的端对数据传送进行控制从低到高的最后一层。</p>
+<p>有一个既存事实，即世界上各种通信子网在性能上存在着很大<strong>差异</strong>。例如电话交换网、分组交换网、公用数据交换网、局域网等通信子网都可互连，但它们提供的吞吐量、传输速率、数据延迟通信费用各不相同。传输层采用分流/合流、复用/介复用技术来<strong>调节</strong>上述通信子网的<strong>差异</strong>。</p>
+<p>此外传输层还要具备<strong>差错恢复</strong>、<strong>流量控制</strong>等功能。传输层面对的数据对象是和会话层的界面端口。传输层的服务一般要经历<strong>传输连接建立阶段</strong>、<strong>数据传送阶段</strong>、<strong>传输连接释放阶段</strong>3个阶段才算完成一个完整的服务过程。而在数据传送阶段又分为<strong>一般数据传送</strong>和<strong>加速数据传送</strong>两种。传输层服务分成5种类型。基本可以满足对传送质量、传送速度、传送费用的各种不同需要。</p>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><p>网络层也称<strong>通信子网层</strong>，是高层协议之间的<strong>界面层</strong>，用于控制通信子网的操作，是通信子网与资源子网的接口。在计算机网络中进行通信的两个计算机之间可能会经过很多个数据链路，也可能还要经过很多通信子网。网络层的任务就是选择合适的<strong>网间路由</strong>和<strong>交换结点</strong>，确保数据及时传送。<br>网络层将解封装数据链路层收到的帧，提取数据包，包中封装有网络层包头。</p>
+<p>如果你在谈论一个IP地址，那么你是在处理第3层的问题，还有一些路由协议和<strong>地址解析协议ARP</strong>。有关路由的一切事情都在第3层处理。<strong>地址解析</strong>和<strong>路由</strong>是3层的重要目的。网络层还可以实现<strong>拥塞控制、网际互连、信息包顺序控制及网络记账</strong>等功能。</p>
+<p>在网络层交换的数据单元的单位是<strong>分割和重新组合数据包</strong>。</p>
+<p>网络层协议的代表包括:<strong>IP、IPX、OSPF</strong>等。</p>
+<p>网络层主要功能是基于网络层地址(IP地址)<strong>进行不同网络系统间的路径选择。</strong></p>
+<h3 id="网络层为建立网络连接和为上层提供服务，应具备以下主要功能"><a href="#网络层为建立网络连接和为上层提供服务，应具备以下主要功能" class="headerlink" title="网络层为建立网络连接和为上层提供服务，应具备以下主要功能:"></a>网络层为建立网络连接和为上层提供服务，应具备以下主要功能:</h3><p><strong>路由选择和中继;</strong></p>
+<p><strong>激活，终止网络连接;</strong></p>
+<p><strong>在一条数据链路上复用多条网络连接，多采取分时复用技术;</strong></p>
+<p><strong>差错检测与恢复;</strong></p>
+<p><strong>排序，流量控制;</strong></p>
+<p><strong>服务选择;</strong></p>
+<p><strong>网络管理;</strong></p>
+<p><strong>网络层标准简介。</strong></p>
+<h3 id="网络层典型设备"><a href="#网络层典型设备" class="headerlink" title="网络层典型设备"></a>网络层典型设备</h3><p>网关、路由器</p>
+<h2 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h2><p>在物理层提供比特流服务的基础上，将比特信息封装成<strong>数据帧Frame</strong>，起到在物理层上<strong>建立、撤销、标识逻辑链接和链路复用以及差错校验</strong>等功能。<em>建立相邻结点之间的数据链路，通过差错控制提供数据帧(Frame)在信道上无差错的传输，同时为其上面的网络层提供有效的服务。</em></p>
+<p>数据链路层在不可靠的物理介质上提供可靠的传输。该层的作用包括:<strong>物理地址寻址、数据的成帧、流量控制、数据的检错、重发</strong>等。</p>
+<p>在这一层，数据的单位称为<strong>帧(frame)。</strong></p>
+<p>数据链路层协议的代表包括:<strong>SDLC、HDLC、PPP、STP、帧中继</strong>等。</p>
+<h3 id="链路层的主要功能"><a href="#链路层的主要功能" class="headerlink" title="链路层的主要功能:"></a>链路层的主要功能:</h3><p><strong>链路层的功能是实现系统实体间二进制信息块的正确传输</strong></p>
+<p><strong>为网络层提供可靠无错误的数据信息</strong></p>
+<p><strong>在数据链路中解决信息模式、操作模式、差错控制、流量控制、信息交换过程和通信控制规程的问题</strong></p>
+<h2 id="链路层是为网络层提供数据传送服务的，这种服务要依靠本层具备的功能来实现。链路层应具备如下功能"><a href="#链路层是为网络层提供数据传送服务的，这种服务要依靠本层具备的功能来实现。链路层应具备如下功能" class="headerlink" title="链路层是为网络层提供数据传送服务的，这种服务要依靠本层具备的功能来实现。链路层应具备如下功能:"></a>链路层是为网络层提供数据传送服务的，这种服务要依靠本层具备的功能来实现。链路层应具备如下功能:</h2><p><strong>链路连接的建立，拆除，分离。</strong></p>
+<p><strong>帧定界和帧同步。链路层的数据传输单元是帧，协议不同，帧的长短和界面也有差别，但无论如何必须对帧进行定界。</strong></p>
+<p><strong>顺序控制，指对帧的收发顺序的控制。</strong></p>
+<p><strong>差错检测和恢复。还有链路标识，流量控制等等。差错检测多用方阵码校验和循环码校验来检测信道上数据的误码，而帧丢失等用序号检测。各种错误的恢复则常靠反馈重发技术来完成。</strong></p>
+<h3 id="数据链路层的典型设备"><a href="#数据链路层的典型设备" class="headerlink" title="数据链路层的典型设备"></a>数据链路层的典型设备</h3><p>二层交换机、网桥、网卡</p>
+<h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><p>物理层是OSI分层结构体系中最重要、最基础的一层，它建立在<strong>传输媒介</strong>基础上，起到<strong>建立、维护和取消物理连接</strong>作用，实现设备之间的物理接口。物理层只接收和发送一串比特(bit)流，不考虑信息的意义和信息结构。</p>
+<p>物理层包括对连接到网络上的设备描述其各种<strong>机械的、电气的、功能的</strong>规定。</p>
+<h3 id="机械特性"><a href="#机械特性" class="headerlink" title="机械特性"></a>机械特性</h3><p>规定了网络连接时所需接插件的规格尺寸、引脚数量和排列情况等。</p>
+<h3 id="电气特性"><a href="#电气特性" class="headerlink" title="电气特性"></a>电气特性</h3><p>规定了在物理连接上传输bit流时线路上信号电平的大小、阻抗匹配、传输速率距离限制等。</p>
+<h3 id="功能特性"><a href="#功能特性" class="headerlink" title="功能特性"></a>功能特性</h3><p>是指对各个信号先分配确切的信号含义，即定义了DTE(数据终端设备)和DCE(数据通信设备)之间各个线路的功能。</p>
+<h3 id="过程特性"><a href="#过程特性" class="headerlink" title="过程特性"></a>过程特性</h3><p>定义了利用信号线进行bit流传输的一组操作规程，是指在物理连接的建立、维护、交换信息时，DTE和DCE双方在各电路上的动作系列。物理层的数据单位是位。</p>
+<p>属于物理层定义的典型规范代表包括:<strong>EIA/TIARS-232、EIA/TIARS-449、V.35、RJ-45</strong>等。</p>
+<h3 id="物理层的主要功能"><a href="#物理层的主要功能" class="headerlink" title="物理层的主要功能"></a>物理层的主要功能</h3><p>为数据端设备提供传送数据的通路，一次完整的数据传输，包括<strong>激活物理连接，传送数据，终止物理连接</strong>。所谓激活，就是不管有多少物理媒体参与，都要在通信的两个数据终端设备间连接起来，形成一条通路。</p>
+<h3 id="物理层要形成适合数据传输需要的实体，为数据传送服务"><a href="#物理层要形成适合数据传输需要的实体，为数据传送服务" class="headerlink" title="物理层要形成适合数据传输需要的实体，为数据传送服务"></a>物理层要形成适合数据传输需要的实体，为数据传送服务</h3><p><strong>保证数据按位传输的正确性;</strong></p>
+<p><strong>向数据链路层提供一个透明的位传输;</strong></p>
+<p><strong>提供足够的带宽(带宽是指每秒钟内能通过的比特(BIT)数)，以减少信道上的拥塞。传输数据的方式能满足点到点，一点到多点，串行或并行，半双工或全双工，同步或异步传输的需要。</strong></p>
+<h3 id="物理层的典型设备"><a href="#物理层的典型设备" class="headerlink" title="物理层的典型设备"></a>物理层的典型设备</h3><p>光纤、同轴电缆、双绞线、中继器和集线器</p>
+<h1 id="与TCP-IP的差别"><a href="#与TCP-IP的差别" class="headerlink" title="与TCP/IP的差别"></a>与TCP/IP的差别</h1><p>TCP/IP模型实际上是OSI模型的一个浓缩版本，它只有四个层次:</p>
+<h2 id="应用层-1"><a href="#应用层-1" class="headerlink" title="应用层"></a>应用层</h2><p>对应着OSI的应用层、表示层、会话层</p>
+<h2 id="传输层-1"><a href="#传输层-1" class="headerlink" title="传输层"></a>传输层</h2><p>对应着OSI的传输层</p>
+<h2 id="网络层-1"><a href="#网络层-1" class="headerlink" title="网络层"></a>网络层</h2><p>对应着OSI的网络层</p>
+<h2 id="网络接口层"><a href="#网络接口层" class="headerlink" title="网络接口层"></a>网络接口层</h2><p>对应着OSI的数据链路层和物理层</p>
+<p>OSI模型的网络层同时支持面向连接和无连接的通信，但是传输层只支持面向连接的通信。<br>TCP/IP模型的网络层只提供无连接的服务，但是传输层上同时提供两种通信模式。<br><HR></p>
+<p><img src="http://note.youdao.com/yws/public/resource/d490d6d3803f1b210e9b7c70905f00db/xmlnote/022CF13245A147F498C2A8201820690F/125" alt="1"></p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E5%B1%82%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">七层结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="nav-number">2.1.</span> <span class="nav-text">应用层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E7%A4%BA%E5%B1%82"><span class="nav-number">2.2.</span> <span class="nav-text">表示层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D%E5%B1%82"><span class="nav-number">2.3.</span> <span class="nav-text">会话层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%9A%E8%AF%9D%E5%B1%82%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="nav-number">2.3.1.</span> <span class="nav-text">会话层的主要功能:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BC%9A%E8%AF%9D%E5%AE%9E%E4%BD%93%E9%97%B4%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E3%80%81%E4%B8%BA%E7%BB%99%E4%B8%A4%E4%B8%AA%E5%AF%B9%E7%AD%89%E4%BC%9A%E8%AF%9D%E6%9C%8D%E5%8A%A1%E7%94%A8%E6%88%B7%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E4%BC%9A%E8%AF%9D%E8%BF%9E%E6%8E%A5%EF%BC%8C%E5%BA%94%E8%AF%A5%E5%81%9A%E5%A6%82%E4%B8%8B%E5%87%A0%E9%A1%B9%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.3.2.</span> <span class="nav-text">为会话实体间建立连接、为给两个对等会话服务用户建立一个会话连接，应该做如下几项工作:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82"><span class="nav-number">2.4.</span> <span class="nav-text">传输层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82%E8%8E%B7%E5%BE%97%E4%B8%8B%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%8C%85%E6%8B%AC"><span class="nav-number">2.4.1.</span> <span class="nav-text">传输层获得下层提供的服务包括:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82%E5%90%91%E4%B8%8A%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%8C%85%E6%8B%AC"><span class="nav-number">2.4.2.</span> <span class="nav-text">传输层向上层提供的服务包括:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-number">2.5.</span> <span class="nav-text">网络层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E4%B8%BA%E5%BB%BA%E7%AB%8B%E7%BD%91%E7%BB%9C%E8%BF%9E%E6%8E%A5%E5%92%8C%E4%B8%BA%E4%B8%8A%E5%B1%82%E6%8F%90%E4%BE%9B%E6%9C%8D%E5%8A%A1%EF%BC%8C%E5%BA%94%E5%85%B7%E5%A4%87%E4%BB%A5%E4%B8%8B%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="nav-number">2.5.1.</span> <span class="nav-text">网络层为建立网络连接和为上层提供服务，应具备以下主要功能:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E5%85%B8%E5%9E%8B%E8%AE%BE%E5%A4%87"><span class="nav-number">2.5.2.</span> <span class="nav-text">网络层典型设备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-number">2.6.</span> <span class="nav-text">数据链路层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="nav-number">2.6.1.</span> <span class="nav-text">链路层的主要功能:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E8%B7%AF%E5%B1%82%E6%98%AF%E4%B8%BA%E7%BD%91%E7%BB%9C%E5%B1%82%E6%8F%90%E4%BE%9B%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%9C%8D%E5%8A%A1%E7%9A%84%EF%BC%8C%E8%BF%99%E7%A7%8D%E6%9C%8D%E5%8A%A1%E8%A6%81%E4%BE%9D%E9%9D%A0%E6%9C%AC%E5%B1%82%E5%85%B7%E5%A4%87%E7%9A%84%E5%8A%9F%E8%83%BD%E6%9D%A5%E5%AE%9E%E7%8E%B0%E3%80%82%E9%93%BE%E8%B7%AF%E5%B1%82%E5%BA%94%E5%85%B7%E5%A4%87%E5%A6%82%E4%B8%8B%E5%8A%9F%E8%83%BD"><span class="nav-number">2.7.</span> <span class="nav-text">链路层是为网络层提供数据传送服务的，这种服务要依靠本层具备的功能来实现。链路层应具备如下功能:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9A%84%E5%85%B8%E5%9E%8B%E8%AE%BE%E5%A4%87"><span class="nav-number">2.7.1.</span> <span class="nav-text">数据链路层的典型设备</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E5%B1%82"><span class="nav-number">2.8.</span> <span class="nav-text">物理层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E6%A2%B0%E7%89%B9%E6%80%A7"><span class="nav-number">2.8.1.</span> <span class="nav-text">机械特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B5%E6%B0%94%E7%89%B9%E6%80%A7"><span class="nav-number">2.8.2.</span> <span class="nav-text">电气特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD%E7%89%B9%E6%80%A7"><span class="nav-number">2.8.3.</span> <span class="nav-text">功能特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%87%E7%A8%8B%E7%89%B9%E6%80%A7"><span class="nav-number">2.8.4.</span> <span class="nav-text">过程特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E5%B1%82%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD"><span class="nav-number">2.8.5.</span> <span class="nav-text">物理层的主要功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E5%B1%82%E8%A6%81%E5%BD%A2%E6%88%90%E9%80%82%E5%90%88%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E9%9C%80%E8%A6%81%E7%9A%84%E5%AE%9E%E4%BD%93%EF%BC%8C%E4%B8%BA%E6%95%B0%E6%8D%AE%E4%BC%A0%E9%80%81%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.8.6.</span> <span class="nav-text">物理层要形成适合数据传输需要的实体，为数据传送服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E7%90%86%E5%B1%82%E7%9A%84%E5%85%B8%E5%9E%8B%E8%AE%BE%E5%A4%87"><span class="nav-number">2.8.7.</span> <span class="nav-text">物理层的典型设备</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8ETCP-IP%E7%9A%84%E5%B7%AE%E5%88%AB"><span class="nav-number">3.</span> <span class="nav-text">与TCP&#x2F;IP的差别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82-1"><span class="nav-number">3.1.</span> <span class="nav-text">应用层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93%E5%B1%82-1"><span class="nav-number">3.2.</span> <span class="nav-text">传输层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82-1"><span class="nav-number">3.3.</span> <span class="nav-text">网络层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%8F%A3%E5%B1%82"><span class="nav-number">3.4.</span> <span class="nav-text">网络接口层</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ziyuexi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ziyuexi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
