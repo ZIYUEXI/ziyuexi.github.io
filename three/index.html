@@ -20,15 +20,20 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
+  <meta name="description" content="TCP connection客户端与服务器之间数据的发送和返回的过程当中需要创建一个叫TCP connection的东西；TCP只存在请求和响应，请求和响应都是数据包，它们之间都是经过由TCP创建的一个从客户端发起，服务器接收的类似连接的通道，这个连接可以一直保持，http请求是在这个连接的基础上发送的；在HTTP&#x2F;1.0中这个TCP连接是在http请求创建的时候同步创建的，http请求发送到服务">
+<meta property="og:type" content="website">
 <meta property="og:title" content="三次握手，四次挥手">
 <meta property="og:url" content="http://example.com/three/index.html">
 <meta property="og:site_name" content="blog">
+<meta property="og:description" content="TCP connection客户端与服务器之间数据的发送和返回的过程当中需要创建一个叫TCP connection的东西；TCP只存在请求和响应，请求和响应都是数据包，它们之间都是经过由TCP创建的一个从客户端发起，服务器接收的类似连接的通道，这个连接可以一直保持，http请求是在这个连接的基础上发送的；在HTTP&#x2F;1.0中这个TCP连接是在http请求创建的时候同步创建的，http请求发送到服务">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/tcp.PNG">
+<meta property="og:image" content="http://example.com/three.PNG">
 <meta property="article:published_time" content="2020-11-30T12:50:16.000Z">
-<meta property="article:modified_time" content="2020-11-30T13:02:52.528Z">
+<meta property="article:modified_time" content="2020-12-01T05:34:31.157Z">
 <meta property="article:author" content="ziyuexi">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/tcp.PNG">
 
 <link rel="canonical" href="http://example.com/three/">
 
@@ -182,7 +187,23 @@
       
       
       <div class="post-body">
-          
+          <h1 id="TCP-connection"><a href="#TCP-connection" class="headerlink" title="TCP connection"></a>TCP connection</h1><p>客户端与服务器之间数据的发送和返回的过程当中需要创建一个叫TCP connection的东西；<br>TCP只存在请求和响应，请求和响应都是数据包，它们之间都是经过由TCP创建的一个从客户端发起，服务器接收的类似连接的通道，这个连接可以一直保持，<em>http请求是在这个连接的基础上发送的；</em><br>在HTTP/1.0中这个TCP连接是在http请求创建的时候同步创建的，http请求发送到服务器端，服务器端响应了之后，这个TCP连接就关闭了；<br>HTTP/1.1中可以以某种方式声明这个连接一直保持，一个请求传输完之后，另一个请求可以接着传输。这样的好处是：在创建一个TCP连接的过程中需要“三次握手”的消耗，“三次握手”代表有三次网络传输。<br>如果TCP连接保持，第二个请求发送就没有这“三次握手”的消耗。HTTP/2中同一个TCP连接里还可以并发地传输http请求。</p>
+<h1 id="TCP-报文格式"><a href="#TCP-报文格式" class="headerlink" title="TCP 报文格式"></a>TCP 报文格式</h1><p><img src="/tcp.PNG" alt="tcp"></p>
+<h2 id="序号（sequence-number）"><a href="#序号（sequence-number）" class="headerlink" title="序号（sequence number）"></a>序号（sequence number）</h2><p>Seq序号，占32位，用来标识从TCP源端向目的端发送的字节流，发起方发送数据时对此进行标记。</p>
+<h2 id="确认号（acknowledgement-number）"><a href="#确认号（acknowledgement-number）" class="headerlink" title="确认号（acknowledgement number）"></a>确认号（acknowledgement number）</h2><p>Ack序号，占32位，只有ACK标志位为1时，确认序号字段才有效，Ack=Seq+1。</p>
+<h2 id="标志位（Flags）"><a href="#标志位（Flags）" class="headerlink" title="标志位（Flags）"></a>标志位（Flags）</h2><p>URG、ACK、PSH、RST、SYN、FIN</p>
+<h3 id="URG"><a href="#URG" class="headerlink" title="URG"></a>URG</h3><p>紧急指针</p>
+<h3 id="ACK"><a href="#ACK" class="headerlink" title="ACK"></a>ACK</h3><p>确认序号有效。</p>
+<h3 id="PSH"><a href="#PSH" class="headerlink" title="PSH"></a>PSH</h3><p>接收方应该尽快将这个报文交给应用层。</p>
+<h3 id="RST"><a href="#RST" class="headerlink" title="RST"></a>RST</h3><p>重置连接。</p>
+<h3 id="SYN"><a href="#SYN" class="headerlink" title="SYN"></a>SYN</h3><p>发起一个新连接。</p>
+<h3 id="FIN"><a href="#FIN" class="headerlink" title="FIN"></a>FIN</h3><p>释放一个连接。</p>
+<h2 id="需要注意的是："><a href="#需要注意的是：" class="headerlink" title="需要注意的是："></a>需要注意的是：</h2><p>不要将确认序号<strong>Ack</strong>与标志位中的<strong>ACK</strong>搞混了。确认方Ack=发起方Seq+1，两端配对。</p>
+<h1 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h1><p>建立一个TCP连接时，需要客户端和服务器总共发送3个包，三次握手的目的是连接服务器指定端口。<br><img src="/three.PNG" alt="three"></p>
+<h2 id="第一次握手"><a href="#第一次握手" class="headerlink" title="第一次握手"></a>第一次握手</h2><h3 id="首先客户端向服务器端发送一段TCP报文"><a href="#首先客户端向服务器端发送一段TCP报文" class="headerlink" title="首先客户端向服务器端发送一段TCP报文"></a>首先客户端向服务器端发送一段TCP报文</h3><p>标记位为SYN，表示“请求建立新连接”;<br>序号为Seq=X（X一般为1）；<br>随后客户端进入SYN-SENT阶段。</p>
+<h2 id="第二次握手"><a href="#第二次握手" class="headerlink" title="第二次握手"></a>第二次握手</h2><h3 id="服务器端接收到来自客户端的TCP报文之后，结束LISTEN阶段。并返回一段TCP报文，其中："><a href="#服务器端接收到来自客户端的TCP报文之后，结束LISTEN阶段。并返回一段TCP报文，其中：" class="headerlink" title="服务器端接收到来自客户端的TCP报文之后，结束LISTEN阶段。并返回一段TCP报文，其中："></a>服务器端接收到来自客户端的TCP报文之后，结束LISTEN阶段。并返回一段TCP报文，其中：</h3><p>标志位为SYN和ACK，表示“确认客户端的报文Seq序号有效，服务器能正常接收客户端发送的数据，并同意创建新连接”（即告诉客户端，服务器收到了你的数据）；<br>序号为<strong>Seq=y；</strong><br>确认号为<strong>Ack=x+1</strong>，表示收到客户端的序号Seq并将其值加1作为自己确认号Ack的值；随后服务器端进入<strong>SYN-RCVD</strong>阶段。</p>
+<h2 id="第三次握手"><a href="#第三次握手" class="headerlink" title="第三次握手"></a>第三次握手</h2><h3 id="客户端接收到来自服务器端的确认收到数据的TCP报文之后，明确了从客户端到服务器的数据传输是正常的，结束SYN-SENT阶段。并返回最后一段TCP报文。其中："><a href="#客户端接收到来自服务器端的确认收到数据的TCP报文之后，明确了从客户端到服务器的数据传输是正常的，结束SYN-SENT阶段。并返回最后一段TCP报文。其中：" class="headerlink" title="客户端接收到来自服务器端的确认收到数据的TCP报文之后，明确了从客户端到服务器的数据传输是正常的，结束SYN-SENT阶段。并返回最后一段TCP报文。其中："></a>客户端接收到来自服务器端的确认收到数据的TCP报文之后，明确了从客户端到服务器的数据传输是正常的，结束SYN-SENT阶段。并返回最后一段TCP报文。其中：</h3><p>标志位为ACK，表示“确认收到服务器端同意连接的信号”（即告诉服务器，我知道你收到我发的数据了）；序号为<strong>Seq=x+1</strong>，表示收到服务器端的确认号Ack，并将其值作为自己的序号值；<br>确认号为<strong>Ack=y+1</strong>，表示收到服务器端序号Seq，并将其值加1作为自己的确认号Ack的值；<br>随后客户端进入<strong>ESTABLISHED</strong>阶段。</p>
+<h2 id="握手结束"><a href="#握手结束" class="headerlink" title="握手结束"></a>握手结束</h2>
       </div>
       
       
@@ -243,6 +264,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP-connection"><span class="nav-number">1.</span> <span class="nav-text">TCP connection</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP-%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">TCP 报文格式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%8F%E5%8F%B7%EF%BC%88sequence-number%EF%BC%89"><span class="nav-number">2.1.</span> <span class="nav-text">序号（sequence number）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E8%AE%A4%E5%8F%B7%EF%BC%88acknowledgement-number%EF%BC%89"><span class="nav-number">2.2.</span> <span class="nav-text">确认号（acknowledgement number）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%BF%97%E4%BD%8D%EF%BC%88Flags%EF%BC%89"><span class="nav-number">2.3.</span> <span class="nav-text">标志位（Flags）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#URG"><span class="nav-number">2.3.1.</span> <span class="nav-text">URG</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ACK"><span class="nav-number">2.3.2.</span> <span class="nav-text">ACK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PSH"><span class="nav-number">2.3.3.</span> <span class="nav-text">PSH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RST"><span class="nav-number">2.3.4.</span> <span class="nav-text">RST</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SYN"><span class="nav-number">2.3.5.</span> <span class="nav-text">SYN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FIN"><span class="nav-number">2.3.6.</span> <span class="nav-text">FIN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E6%98%AF%EF%BC%9A"><span class="nav-number">2.4.</span> <span class="nav-text">需要注意的是：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">3.</span> <span class="nav-text">TCP三次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">3.1.</span> <span class="nav-text">第一次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%96%E5%85%88%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%90%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E5%8F%91%E9%80%81%E4%B8%80%E6%AE%B5TCP%E6%8A%A5%E6%96%87"><span class="nav-number">3.1.1.</span> <span class="nav-text">首先客户端向服务器端发送一段TCP报文</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">3.2.</span> <span class="nav-text">第二次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%8E%A5%E6%94%B6%E5%88%B0%E6%9D%A5%E8%87%AA%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84TCP%E6%8A%A5%E6%96%87%E4%B9%8B%E5%90%8E%EF%BC%8C%E7%BB%93%E6%9D%9FLISTEN%E9%98%B6%E6%AE%B5%E3%80%82%E5%B9%B6%E8%BF%94%E5%9B%9E%E4%B8%80%E6%AE%B5TCP%E6%8A%A5%E6%96%87%EF%BC%8C%E5%85%B6%E4%B8%AD%EF%BC%9A"><span class="nav-number">3.2.1.</span> <span class="nav-text">服务器端接收到来自客户端的TCP报文之后，结束LISTEN阶段。并返回一段TCP报文，其中：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">3.3.</span> <span class="nav-text">第三次握手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8E%A5%E6%94%B6%E5%88%B0%E6%9D%A5%E8%87%AA%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E7%9A%84%E7%A1%AE%E8%AE%A4%E6%94%B6%E5%88%B0%E6%95%B0%E6%8D%AE%E7%9A%84TCP%E6%8A%A5%E6%96%87%E4%B9%8B%E5%90%8E%EF%BC%8C%E6%98%8E%E7%A1%AE%E4%BA%86%E4%BB%8E%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E6%98%AF%E6%AD%A3%E5%B8%B8%E7%9A%84%EF%BC%8C%E7%BB%93%E6%9D%9FSYN-SENT%E9%98%B6%E6%AE%B5%E3%80%82%E5%B9%B6%E8%BF%94%E5%9B%9E%E6%9C%80%E5%90%8E%E4%B8%80%E6%AE%B5TCP%E6%8A%A5%E6%96%87%E3%80%82%E5%85%B6%E4%B8%AD%EF%BC%9A"><span class="nav-number">3.3.1.</span> <span class="nav-text">客户端接收到来自服务器端的确认收到数据的TCP报文之后，明确了从客户端到服务器的数据传输是正常的，结束SYN-SENT阶段。并返回最后一段TCP报文。其中：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%A1%E6%89%8B%E7%BB%93%E6%9D%9F"><span class="nav-number">3.4.</span> <span class="nav-text">握手结束</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
