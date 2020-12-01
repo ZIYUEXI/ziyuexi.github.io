@@ -27,16 +27,16 @@
 <meta property="og:site_name" content="blog">
 <meta property="og:description" content="TCP connection客户端与服务器之间数据的发送和返回的过程当中需要创建一个叫TCP connection的东西；TCP只存在请求和响应，请求和响应都是数据包，它们之间都是经过由TCP创建的一个从客户端发起，服务器接收的类似连接的通道，这个连接可以一直保持，http请求是在这个连接的基础上发送的；在HTTP&#x2F;1.0中这个TCP连接是在http请求创建的时候同步创建的，http请求发送到服务">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/three/three/tcp.PNG">
-<meta property="og:image" content="http://example.com/three/three/three.PNG">
-<meta property="og:image" content="http://example.com/three/three/four.PNG">
+<meta property="og:image" content="http://example.com/three/three/tcp.png">
+<meta property="og:image" content="http://example.com/three/three/three.png">
+<meta property="og:image" content="http://example.com/three/three/four.png">
 <meta property="og:image" content="http://example.com/three/three/three-four.png">
 <meta property="og:image" content="http://example.com/three/three/A1.jpg">
 <meta property="article:published_time" content="2020-12-01T08:29:00.000Z">
-<meta property="article:modified_time" content="2020-12-01T10:29:30.736Z">
+<meta property="article:modified_time" content="2020-12-01T13:56:01.206Z">
 <meta property="article:author" content="ziyuexi">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/three/three/tcp.PNG">
+<meta name="twitter:image" content="http://example.com/three/three/tcp.png">
 
 <link rel="canonical" href="http://example.com/three/three">
 
@@ -191,7 +191,7 @@
       
       <div class="post-body">
           <h1 id="TCP-connection"><a href="#TCP-connection" class="headerlink" title="TCP connection"></a>TCP connection</h1><p>客户端与服务器之间数据的发送和返回的过程当中需要创建一个叫TCP connection的东西；<br>TCP只存在请求和响应，请求和响应都是数据包，它们之间都是经过由TCP创建的一个从客户端发起，服务器接收的类似连接的通道，这个连接可以一直保持，<em>http请求是在这个连接的基础上发送的；</em><br>在HTTP/1.0中这个TCP连接是在http请求创建的时候同步创建的，http请求发送到服务器端，服务器端响应了之后，这个TCP连接就关闭了；<br>HTTP/1.1中可以以某种方式声明这个连接一直保持，一个请求传输完之后，另一个请求可以接着传输。这样的好处是：在创建一个TCP连接的过程中需要“三次握手”的消耗，“三次握手”代表有三次网络传输。<br>如果TCP连接保持，第二个请求发送就没有这“三次握手”的消耗。HTTP/2中同一个TCP连接里还可以并发地传输http请求。</p>
-<h1 id="TCP-报文格式"><a href="#TCP-报文格式" class="headerlink" title="TCP 报文格式"></a>TCP 报文格式</h1><p><img src="/three/three/tcp.PNG" alt="tcp"></p>
+<h1 id="TCP-报文格式"><a href="#TCP-报文格式" class="headerlink" title="TCP 报文格式"></a>TCP 报文格式</h1><p><img src="/three/three/tcp.png" alt="tcp"></p>
 <h2 id="序号（sequence-number）"><a href="#序号（sequence-number）" class="headerlink" title="序号（sequence number）"></a>序号（sequence number）</h2><p>Seq序号，占32位，用来标识从TCP源端向目的端发送的字节流，发起方发送数据时对此进行标记。</p>
 <h2 id="确认号（acknowledgement-number）"><a href="#确认号（acknowledgement-number）" class="headerlink" title="确认号（acknowledgement number）"></a>确认号（acknowledgement number）</h2><p>Ack序号，占32位，只有ACK标志位为1时，确认序号字段才有效，Ack=Seq+1。</p>
 <h2 id="标志位（Flags）"><a href="#标志位（Flags）" class="headerlink" title="标志位（Flags）"></a>标志位（Flags）</h2><p>URG、ACK、PSH、RST、SYN、FIN</p>
@@ -203,14 +203,14 @@
 <h3 id="FIN"><a href="#FIN" class="headerlink" title="FIN"></a>FIN</h3><p>释放一个连接。</p>
 <h2 id="需要注意的是："><a href="#需要注意的是：" class="headerlink" title="需要注意的是："></a>需要注意的是：</h2><p>不要将确认序号<strong>Ack</strong>与标志位中的<strong>ACK</strong>搞混了。确认方Ack=发起方Seq+1，两端配对。</p>
 <h1 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h1><p>建立一个TCP连接时，需要客户端和服务器总共发送3个包，三次握手的目的是连接服务器指定端口。</p>
-<p><img src="/three/three/three.PNG" alt="three"></p>
+<p><img src="/three/three/three.png" alt="three"></p>
 <h2 id="第一次握手"><a href="#第一次握手" class="headerlink" title="第一次握手"></a>第一次握手</h2><h3 id="首先客户端向服务器端发送一段TCP报文"><a href="#首先客户端向服务器端发送一段TCP报文" class="headerlink" title="首先客户端向服务器端发送一段TCP报文"></a>首先客户端向服务器端发送一段TCP报文</h3><p>标记位为SYN，表示“请求建立新连接”;<br>序号为Seq=X（X一般为1）；<br>随后客户端进入<strong>SYN-SENT</strong>阶段。</p>
 <h2 id="第二次握手"><a href="#第二次握手" class="headerlink" title="第二次握手"></a>第二次握手</h2><h3 id="服务器端接收到来自客户端的TCP报文之后，结束LISTEN阶段。并返回一段TCP报文，其中："><a href="#服务器端接收到来自客户端的TCP报文之后，结束LISTEN阶段。并返回一段TCP报文，其中：" class="headerlink" title="服务器端接收到来自客户端的TCP报文之后，结束LISTEN阶段。并返回一段TCP报文，其中："></a>服务器端接收到来自客户端的TCP报文之后，结束LISTEN阶段。并返回一段TCP报文，其中：</h3><p>标志位为SYN和ACK，表示“确认客户端的报文Seq序号有效，服务器能正常接收客户端发送的数据，并同意创建新连接”（即告诉客户端，服务器收到了你的数据）；<br>序号为<strong>Seq=y；</strong><br>确认号为<strong>Ack=x+1</strong>，表示收到客户端的序号Seq并将其值加1作为自己确认号Ack的值；随后服务器端进入<strong>SYN-RCVD</strong>阶段。</p>
 <h2 id="第三次握手"><a href="#第三次握手" class="headerlink" title="第三次握手"></a>第三次握手</h2><h3 id="客户端接收到来自服务器端的确认收到数据的TCP报文之后，明确了从客户端到服务器的数据传输是正常的，结束SYN-SENT阶段。并返回最后一段TCP报文。其中："><a href="#客户端接收到来自服务器端的确认收到数据的TCP报文之后，明确了从客户端到服务器的数据传输是正常的，结束SYN-SENT阶段。并返回最后一段TCP报文。其中：" class="headerlink" title="客户端接收到来自服务器端的确认收到数据的TCP报文之后，明确了从客户端到服务器的数据传输是正常的，结束SYN-SENT阶段。并返回最后一段TCP报文。其中："></a>客户端接收到来自服务器端的确认收到数据的TCP报文之后，明确了从客户端到服务器的数据传输是正常的，结束SYN-SENT阶段。并返回最后一段TCP报文。其中：</h3><p>标志位为ACK，表示“确认收到服务器端同意连接的信号”（即告诉服务器，我知道你收到我发的数据了）；序号为<strong>Seq=x+1</strong>，表示收到服务器端的确认号Ack，并将其值作为自己的序号值；<br>确认号为<strong>Ack=y+1</strong>，表示收到服务器端序号Seq，并将其值加1作为自己的确认号Ack的值；<br>随后客户端进入<strong>ESTABLISHED</strong>阶段。</p>
 <h2 id="握手结束"><a href="#握手结束" class="headerlink" title="握手结束"></a>握手结束</h2><hr>
 
 <h1 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h1><p>四次挥手即终止TCP连接，就是指断开一个TCP连接时，需要客户端和服务端总共发送4个包以确认连接的断开。<br>发送一个FIN来终止这一方向的连接，收到一个FIN只是意味着这一方向上没有数据流动了，即不会再收到数据了，但是在这个TCP连接上仍然能够发送数据，直到这一方向也发送了FIN。首先进行关闭的一方将执行主动关闭，而另一方则执行被动关闭。</p>
-<p><img src="/three/three/four.PNG" alt="four"></p>
+<p><img src="/three/three/four.png" alt="four"></p>
 <h2 id="第一次"><a href="#第一次" class="headerlink" title="第一次"></a>第一次</h2><p>客户端发送一个FIN=M，用来关闭客户端到服务器端的数据传送，客户端进入<strong>FIN_WAIT_1</strong>状态。意思是说”我客户端没有数据要发给你了”，但是如果你服务器端还有数据没有发送完成，则不必急着关闭连接，可以继续发送数据。</p>
 <h2 id="第二次"><a href="#第二次" class="headerlink" title="第二次"></a>第二次</h2><p>服务器端收到FIN后，先发送ack=M+1，告诉客户端，你的请求我收到了，但是我还没准备好，请继续你等我的消息。这个时候客户端就进入<strong>FIN_WAIT_2</strong> 状态，继续等待服务器端的FIN报文。</p>
 <h2 id="第三次"><a href="#第三次" class="headerlink" title="第三次"></a>第三次</h2><p>当服务器端确定数据已发送完成，则向客户端发送FIN=N报文，告诉客户端，好了，我这边数据发完了，准备好关闭连接了。服务器端进入<strong>LAST_ACK</strong>状态。</p>
