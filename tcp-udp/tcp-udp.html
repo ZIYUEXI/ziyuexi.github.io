@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="TCP传输控制协议TCP是一种面向连接的、可靠的、基于字节流的运输层通信协议。在简化的计算机网络OSI模型中，它完成第四层传输层所指定的功能，UDP是同一层内另一个重要的传输协议。 一次完整的TCP连接 三次握手四次挥手详解https:&#x2F;&#x2F;ziyuexi.github.io&#x2F;three&#x2F;three.html TCP报文段   UDP提供面向事务的简单不可靠信息传送服务。UDP协议全称是用户数据报协">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TCP与UDP">
+<meta property="og:url" content="http://example.com/tcp-udp/tcp-udp.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="TCP传输控制协议TCP是一种面向连接的、可靠的、基于字节流的运输层通信协议。在简化的计算机网络OSI模型中，它完成第四层传输层所指定的功能，UDP是同一层内另一个重要的传输协议。 一次完整的TCP连接 三次握手四次挥手详解https:&#x2F;&#x2F;ziyuexi.github.io&#x2F;three&#x2F;three.html TCP报文段   UDP提供面向事务的简单不可靠信息传送服务。UDP协议全称是用户数据报协">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/tcp-udp/tcp-udp/three-four.png">
+<meta property="og:image" content="http://example.com/tcp-udp/tcp-udp/tcp.png">
+<meta property="og:image" content="http://example.com/tcp-udp/tcp-udp/udp.png">
+<meta property="og:image" content="http://example.com/tcp-udp/tcp-udp/A1.jpg">
+<meta property="article:published_time" content="2020-12-02T10:49:32.000Z">
+<meta property="article:modified_time" content="2020-12-02T11:09:06.311Z">
+<meta property="article:author" content="ziyuexi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/tcp-udp/tcp-udp/three-four.png">
+
+<link rel="canonical" href="http://example.com/tcp-udp/tcp-udp">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>TCP与UDP | blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">TCP与UDP
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><p>传输控制协议TCP是一种面向<strong>连接的</strong>、<strong>可靠的</strong>、基于字节流的<strong>运输层通信协议</strong>。在简化的计算机网络<strong>OSI模型</strong>中，它完成第四层传输层所指定的功能，<strong>UDP</strong>是同一层内另一个重要的传输协议。</p>
+<h2 id="一次完整的TCP连接"><a href="#一次完整的TCP连接" class="headerlink" title="一次完整的TCP连接"></a>一次完整的TCP连接</h2><p><img src="/tcp-udp/tcp-udp/three-four.png" alt="three-four"></p>
+<h3 id="三次握手四次挥手详解"><a href="#三次握手四次挥手详解" class="headerlink" title="三次握手四次挥手详解"></a>三次握手四次挥手详解</h3><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/three/three.html">https://ziyuexi.github.io/three/three.html</a></p>
+<h2 id="TCP报文段"><a href="#TCP报文段" class="headerlink" title="TCP报文段"></a>TCP报文段</h2><p><img src="/tcp-udp/tcp-udp/tcp.png" alt="tcp"></p>
+<hr>
+
+<h1 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h1><p>提供面向事务的<strong>简单不可靠</strong>信息传送服务。<br>UDP协议全称是<strong>用户数据报协议</strong>，它与<strong>TCP协议</strong>一处理数据包，在传输层。UDP有<strong>不提供数据包分组</strong>、<strong>组装</strong>和<strong>不能对数据包进行排序</strong>的缺点，当报文发送之后，是无法得知其是否安全完整到达的。UDP协议的主要作用是<strong>将网络数据流量压缩成数据包</strong>的形式。一个典型的数据包就是一个二进制数据的传输单位。</p>
+<h2 id="UDP使用"><a href="#UDP使用" class="headerlink" title="UDP使用"></a>UDP使用</h2><p>由于UDP不属于<strong>连接型协议</strong>，因而具有<strong>资源消耗小</strong>，<strong>处理速度快</strong>的优点，所以通常<strong>音频、视频</strong>和<strong>普通数据</strong>在传送时使用UDP较多，因为它们即使偶尔丢失一两个数据包，也不会对接收结果产生太大影响。比如我们聊天用的ICQ和QQ就是使用的UDP协议。</p>
+<h2 id="UDP报头"><a href="#UDP报头" class="headerlink" title="UDP报头"></a>UDP报头</h2><p><img src="/tcp-udp/tcp-udp/udp.png" alt="UDP"></p>
+<h2 id="使用UDP协议包括"><a href="#使用UDP协议包括" class="headerlink" title="使用UDP协议包括"></a>使用UDP协议包括</h2><p>TFTP、SNMP、NFS、DNS、BOOTP</p>
+<hr>
+
+<h1 id="UDP与TCP的区别"><a href="#UDP与TCP的区别" class="headerlink" title="UDP与TCP的区别"></a>UDP与TCP的区别</h1><h2 id="TCP的优点"><a href="#TCP的优点" class="headerlink" title="TCP的优点"></a>TCP的优点</h2><p>可靠，稳定 TCP的可靠体现在TCP在传递数据之前，会有三次握手来建立连接，而且在数据传递时，有确认、窗口、重传、拥塞控制机制，在数据传完后，还会断开连接用来节约系统资源</p>
+<h2 id="TCP的缺点"><a href="#TCP的缺点" class="headerlink" title="TCP的缺点"></a>TCP的缺点</h2><p>慢，效率低，占用系统资源高，易被攻击 TCP在传递数据之前，要先建连接，这会消耗时间，而且在数据传递时，确认机制、重传机制、拥塞控制机制等都会消耗大量的时间。 可以被<strong>DOS</strong>、<strong>DDOS</strong>、<strong>CC</strong>等攻击。</p>
+<h2 id="UDP的优点"><a href="#UDP的优点" class="headerlink" title="UDP的优点"></a>UDP的优点</h2><p>快，比TCP稍安全 <strong>UDP没有TCP的握手</strong>，UDP是一个无状态的传输协议，所以它在传递数据时非常快。但UDP也是无法避免攻击的，比如：<strong>UDP</strong> <strong>Flood</strong></p>
+<h2 id="UDP的缺点"><a href="#UDP的缺点" class="headerlink" title="UDP的缺点"></a>UDP的缺点</h2><p>不可靠，不稳定 因为UDP没有TCP那些可靠的机制，在数据传递时，如果网络质量不好，就会很容易丢包。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对通讯质量有要求时往往需要应用TCP协议例如：HTTP、HTTPS、FTP、浏览器<br>而对通讯速度要求快时往往要使用UDP协议例如：QQ语音视频、TFTP、直播</p>
+<hr>
+
+<p><img src="/tcp-udp/tcp-udp/A1.jpg" alt="A1"></p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TCP"><span class="nav-number">1.</span> <span class="nav-text">TCP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E6%AC%A1%E5%AE%8C%E6%95%B4%E7%9A%84TCP%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.1.</span> <span class="nav-text">一次完整的TCP连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.1.1.</span> <span class="nav-text">三次握手四次挥手详解</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E6%8A%A5%E6%96%87%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">TCP报文段</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP"><span class="nav-number">2.</span> <span class="nav-text">UDP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP%E4%BD%BF%E7%94%A8"><span class="nav-number">2.1.</span> <span class="nav-text">UDP使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP%E6%8A%A5%E5%A4%B4"><span class="nav-number">2.2.</span> <span class="nav-text">UDP报头</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8UDP%E5%8D%8F%E8%AE%AE%E5%8C%85%E6%8B%AC"><span class="nav-number">2.3.</span> <span class="nav-text">使用UDP协议包括</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#UDP%E4%B8%8ETCP%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.</span> <span class="nav-text">UDP与TCP的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">3.1.</span> <span class="nav-text">TCP的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">3.2.</span> <span class="nav-text">TCP的缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP%E7%9A%84%E4%BC%98%E7%82%B9"><span class="nav-number">3.3.</span> <span class="nav-text">UDP的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">3.4.</span> <span class="nav-text">UDP的缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ziyuexi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ziyuexi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
