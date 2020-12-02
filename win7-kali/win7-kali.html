@@ -20,28 +20,42 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="blog">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="Kali第一步首先在VM中将KALI的网路适配器修改为NAT模式 第二步右上角找到一个插口的标致右键进入编辑 第三步进入IPV4模式将方法改为手动将我们想要的地址和子网掩码输入进去 第四步重启后右键插口标志进行查看可以看见我们的IP和子网掩码已经被改为我们想要的了   win7第一步首先在VM中将win7的网路适配器修改为NAT模式 第二步右下角计算机和插头标致右键–&gt;网路和共享中心–&amp;gt">
+<meta property="og:type" content="website">
+<meta property="og:title" content="修改虚拟机中KALI和WIN7的IP及子网掩码">
+<meta property="og:url" content="http://example.com/win7-kali/win7-kali.html">
 <meta property="og:site_name" content="blog">
+<meta property="og:description" content="Kali第一步首先在VM中将KALI的网路适配器修改为NAT模式 第二步右上角找到一个插口的标致右键进入编辑 第三步进入IPV4模式将方法改为手动将我们想要的地址和子网掩码输入进去 第四步重启后右键插口标志进行查看可以看见我们的IP和子网掩码已经被改为我们想要的了   win7第一步首先在VM中将win7的网路适配器修改为NAT模式 第二步右下角计算机和插头标致右键–&gt;网路和共享中心–&amp;gt">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/win7-kali/win7-kali/kali-1.png">
+<meta property="og:image" content="http://example.com/win7-kali/win7-kali/kali-2.png">
+<meta property="og:image" content="http://example.com/win7-kali/win7-kali/kali-3.png">
+<meta property="og:image" content="http://example.com/win7-kali/win7-kali/kali-4.png">
+<meta property="og:image" content="http://example.com/win7-kali/win7-kali/win-1.png">
+<meta property="og:image" content="http://example.com/win7-kali/win7-kali/win-2.png">
+<meta property="og:image" content="http://example.com/win7-kali/win7-kali/win-3.png">
+<meta property="og:image" content="http://example.com/win7-kali/win7-kali/A1.jpg">
+<meta property="article:published_time" content="2020-12-02T15:44:53.000Z">
+<meta property="article:modified_time" content="2020-12-02T16:03:24.893Z">
 <meta property="article:author" content="ziyuexi">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/win7-kali/win7-kali/kali-1.png">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/win7-kali/win7-kali">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
+    isHome : false,
     isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>blog</title>
+  <title>修改虚拟机中KALI和WIN7的IP及子网掩码 | blog
+</title>
   
 
 
@@ -153,92 +167,55 @@
       <div class="main-inner">
         <div class="content-wrap">
           
+  
+  
 
-          <div class="content index posts-expand">
+          <div class="content page posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/28/index/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ziyuexi">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="blog">
-    </span>
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/11/28/index/" class="post-title-link" itemprop="url">首页</a>
-        </h2>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
+<h1 class="post-title" itemprop="name headline">修改虚拟机中KALI和WIN7的IP及子网掩码
+</h1>
 
-              <time title="创建时间：2020-11-28 19:33:22" itemprop="dateCreated datePublished" datetime="2020-11-28T19:33:22+08:00">2020-11-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-12-03 00:08:46" itemprop="dateModified" datetime="2020-12-03T00:08:46+08:00">2020-12-03</time>
-              </span>
+<div class="post-meta">
+  
 
-          
+</div>
 
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
+</header>
 
       
-          <h1 id="CTF"><a href="#CTF" class="headerlink" title="CTF"></a>CTF</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/ctf/">https://ziyuexi.github.io/ctf/</a></p>
-<h1 id="SQLI"><a href="#SQLI" class="headerlink" title="SQLI"></a>SQLI</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/sqli/">https://ziyuexi.github.io/sqli/</a></p>
-<h1 id="NOTE"><a href="#NOTE" class="headerlink" title="NOTE"></a>NOTE</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/note/">https://ziyuexi.github.io/note/</a></p>
-<h1 id="OSI模型"><a href="#OSI模型" class="headerlink" title="OSI模型"></a>OSI模型</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/osi/osi.html">https://ziyuexi.github.io/osi/osi.html</a></p>
-<h1 id="三次握手四次挥手"><a href="#三次握手四次挥手" class="headerlink" title="三次握手四次挥手"></a>三次握手四次挥手</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/three/three.html">https://ziyuexi.github.io/three/three.html</a></p>
-<h1 id="常见协议"><a href="#常见协议" class="headerlink" title="常见协议"></a>常见协议</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/xieyi/xieyi.html">https://ziyuexi.github.io/xieyi/xieyi.html</a></p>
-<h1 id="常见端口"><a href="#常见端口" class="headerlink" title="常见端口"></a>常见端口</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/duankou/duankou.html">https://ziyuexi.github.io/duankou/duankou.html</a></p>
-<h1 id="TCP与UDP协议"><a href="#TCP与UDP协议" class="headerlink" title="TCP与UDP协议"></a>TCP与UDP协议</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/tcp-udp/tcp-udp.html">https://ziyuexi.github.io/tcp-udp/tcp-udp.html</a></p>
-<h1 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/ip/ip.html">https://ziyuexi.github.io/ip/ip.html</a></p>
-<h1 id="堡垒机和DMZ"><a href="#堡垒机和DMZ" class="headerlink" title="堡垒机和DMZ"></a>堡垒机和DMZ</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/baolei/baolei.html">https://ziyuexi.github.io/baolei/baolei.html</a></p>
-<h1 id="交换机与路由器"><a href="#交换机与路由器" class="headerlink" title="交换机与路由器"></a>交换机与路由器</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/exchange/exchange.html">https://ziyuexi.github.io/exchange/exchange.html</a></p>
-<h1 id="网关-IPS与IDS"><a href="#网关-IPS与IDS" class="headerlink" title="网关/IPS与IDS"></a>网关/IPS与IDS</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/wg/wg.html">https://ziyuexi.github.io/wg/wg.html</a></p>
-<h1 id="KALI和WIN7配置IP与子网掩码"><a href="#KALI和WIN7配置IP与子网掩码" class="headerlink" title="KALI和WIN7配置IP与子网掩码"></a>KALI和WIN7配置IP与子网掩码</h1><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/win-kali/win-kali.html">https://ziyuexi.github.io/win-kali/win-kali.html</a></p>
+      
+      
+      <div class="post-body">
+          <h1 id="Kali"><a href="#Kali" class="headerlink" title="Kali"></a>Kali</h1><h2 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h2><p><img src="/win7-kali/win7-kali/kali-1.png" alt="kali-1"><br>首先在VM中将KALI的网路适配器修改为NAT模式</p>
+<h2 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h2><p><img src="/win7-kali/win7-kali/kali-2.png" alt="kali-2"><br>右上角找到一个插口的标致右键进入编辑</p>
+<h2 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h2><p><img src="/win7-kali/win7-kali/kali-3.png" alt="kali-3"><br>进入IPV4模式将方法改为手动将我们想要的地址和子网掩码输入进去</p>
+<h2 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h2><p><img src="/win7-kali/win7-kali/kali-4.png" alt="kali-4"><br>重启后右键插口标志进行查看可以看见我们的IP和子网掩码已经被改为我们想要的了</p>
 <hr>
 
-<p><img src="/.com//three/A1.png" alt="A1"></p>
+<h1 id="win7"><a href="#win7" class="headerlink" title="win7"></a>win7</h1><h2 id="第一步-1"><a href="#第一步-1" class="headerlink" title="第一步"></a>第一步</h2><p><img src="/win7-kali/win7-kali/win-1.png" alt="win-1"><br>首先在VM中将win7的网路适配器修改为NAT模式</p>
+<h2 id="第二步-1"><a href="#第二步-1" class="headerlink" title="第二步"></a>第二步</h2><p><img src="/win7-kali/win7-kali/win-2.png" alt="win-2"><br>右下角计算机和插头标致右键–&gt;网路和共享中心–&gt;属性–&gt;打开IPV4–&gt;手动输入IP将我们想要的IP和子网掩码输入进去</p>
+<h2 id="第三步-1"><a href="#第三步-1" class="headerlink" title="第三步"></a>第三步</h2><p><img src="/win7-kali/win7-kali/win-3.png" alt="win-3"><br>可以看到IP和子网掩码已经被改成我们想要的了</p>
+<hr>
 
+<p><img src="/win7-kali/win7-kali/A1.jpg" alt="A1"></p>
+
+      </div>
+      
+      
       
     </div>
+    
 
     
     
     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
-  
-
 
 
           </div>
@@ -289,6 +266,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kali"><span class="nav-number">1.</span> <span class="nav-text">Kali</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5"><span class="nav-number">1.1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5"><span class="nav-number">1.2.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5"><span class="nav-number">1.3.</span> <span class="nav-text">第三步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5"><span class="nav-number">1.4.</span> <span class="nav-text">第四步</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#win7"><span class="nav-number">2.</span> <span class="nav-text">win7</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-1"><span class="nav-number">2.1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-1"><span class="nav-number">2.2.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5-1"><span class="nav-number">2.3.</span> <span class="nav-text">第三步</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

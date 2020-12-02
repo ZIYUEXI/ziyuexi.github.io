@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="交换机网络节点上话务承载装置、交换级、控制和信令设备以及其他功能单元的集合体。交换机能把用户线路、电信电路和(或)其他要互连的功能单元根据单个用户的请求连接起来。 功能 物理编址 网络拓扑结构(星型拓扑布线) 错误校验 帧序列以及流控 VLAN的支持 对链路汇聚的支持 防火墙交换机除了能够连接同种类型的网络之外，还可以在不同类型的网络之间起到互连作用。如今许多交换机都能够提供支持快速以太网或FDD">
+<meta property="og:type" content="website">
+<meta property="og:title" content="交换机与路由器">
+<meta property="og:url" content="http://example.com/exchange/exchange.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="交换机网络节点上话务承载装置、交换级、控制和信令设备以及其他功能单元的集合体。交换机能把用户线路、电信电路和(或)其他要互连的功能单元根据单个用户的请求连接起来。 功能 物理编址 网络拓扑结构(星型拓扑布线) 错误校验 帧序列以及流控 VLAN的支持 对链路汇聚的支持 防火墙交换机除了能够连接同种类型的网络之外，还可以在不同类型的网络之间起到互连作用。如今许多交换机都能够提供支持快速以太网或FDD">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/exchange/exchange/work.jpg">
+<meta property="og:image" content="http://example.com/exchange/exchange/A1.jpg">
+<meta property="article:published_time" content="2020-12-02T13:30:28.000Z">
+<meta property="article:modified_time" content="2020-12-02T14:10:42.501Z">
+<meta property="article:author" content="ziyuexi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/exchange/exchange/work.jpg">
+
+<link rel="canonical" href="http://example.com/exchange/exchange">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>交换机与路由器 | blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">交换机与路由器
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a>交换机</h1><p>网络节点上话务承载装置、交换级、控制和信令设备以及其他功能单元的集合体。交换机能把用户线路、电信电路和(或)其他要互连的功能单元根据单个用户的请求连接起来。</p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><ol>
+<li>物理编址</li>
+<li>网络拓扑结构(星型拓扑布线)</li>
+<li>错误校验</li>
+<li>帧序列以及流控</li>
+<li>VLAN的支持</li>
+<li>对链路汇聚的支持</li>
+<li>防火墙<br>交换机除了能够连接<strong>同种类型的网络</strong>之外，还可以在<strong>不同类型的网络</strong>之间起到<strong>互连作用</strong>。如今许多交换机都能够提供支持<strong>快速以太网</strong>或<strong>FDDI</strong>等的<strong>高速连接端口</strong>，用于连接网络中的其它交换机或者为带宽占用量大的关键服务器提供附加带宽。一般来说，交换机的每个端口都用来连接一个<strong>独立的网段</strong>，但是有时为了提供更快的接入速度，我们可以把一些<strong>重要的网络计算机</strong>直接连接到交换机的端口上。这样，网络的<strong>关键服务器</strong>和<strong>重要用户</strong>就拥有更快的接入速度，支持更大的信息流量。<h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3>以太网交换机了解每一端口相连设备的<strong>MAC地址</strong>，并将地址同相应的端口映射起来存放在<strong>交换机缓存中的MAC地址表</strong>中。<h3 id="转发-过滤"><a href="#转发-过滤" class="headerlink" title="转发/过滤"></a>转发/过滤</h3>当一个数据帧的目的地址在<strong>MAC地址表</strong>中有映射时，它被转发到连接目的节点的端口而不是所有端口。<h3 id="消除回路"><a href="#消除回路" class="headerlink" title="消除回路"></a>消除回路</h3>当交换机包括一个<strong>冗余回路</strong>时，以太网交换机通过生成<strong>树协议</strong>避免回路的产生，同时允许存在后备路径。<h2 id="FDDI"><a href="#FDDI" class="headerlink" title="FDDI"></a>FDDI</h2>光纤分布式数据接口，它是一项<strong>局域网数据传输标准</strong>为网络高容量输入输出提供了一种<strong>访问</strong>方法。FDDI 使用双环令牌，传输速率可以达到<strong>100Mbps</strong>。<h2 id="冗余回路"><a href="#冗余回路" class="headerlink" title="冗余回路"></a>冗余回路</h2>简单来说硬件软件互相备用，一个出现问题另一个还可以正常使用，就是<strong>双保险</strong>。<h2 id="树协议"><a href="#树协议" class="headerlink" title="树协议"></a>树协议</h2>树协议是一种工作在<strong>OSI网络模型中</strong>的<strong>数据链路层</strong>的<strong>通信协议</strong>，基本应用是防止交换机<strong>冗余链路</strong>产生的环路.用于确保以太网中无环路的<strong>逻辑拓扑结构</strong>.从而避免了<strong>广播风暴</strong>,大量占用交换机的资源。<h3 id="冗余链路"><a href="#冗余链路" class="headerlink" title="冗余链路"></a>冗余链路</h3>单一链路的连接很容易实现,但一个简单的故障就会造成网络的中断.因此在实际网络组建的过程中,为了保持网络的稳定性,在多台交换机组成的网络环境中,通常都使用一些<strong>备份连接</strong>,以提高网络的稳定性。<br>链路的冗余备份能为网络带来稳定性,但是也会使网络存在<strong>环路</strong>,<strong>环路问题</strong>是<strong>备份链路</strong>所面临的最为严重的问题,交换机之间的<strong>环路</strong>将导致网络新问题的发生:</li>
+<li>广播风暴</li>
+<li>多帧复制</li>
+<li>地址表的不稳定</li>
+</ol>
+<hr>
+
+<h1 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h1><p>是连接多个网络的<strong>硬件设备</strong>，在网络间起<strong>网关</strong>的作用。它能够理解<strong>不同的协议</strong>，例如某个局域网使用的<strong>以太网协议</strong>，因特网使用的<strong>TCP/IP协议</strong>。这样，路由器可以分析各种不同类型网络传来的数据包的<strong>目的地址</strong>，把<strong>非TCP/IP</strong>网络的地址转换成<strong>TCP/IP</strong>地址，或者反之；再根据选定的路由算法把各数据包按最佳路线传送到指定位置。所以路由器可以把非TCP/ IP网络连接到<strong>因特网</strong>上。</p>
+<h2 id="作用功能"><a href="#作用功能" class="headerlink" title="作用功能"></a>作用功能</h2><ol>
+<li>实现<strong>IP、TCP、UDP、ICMP</strong>等网络的互连。</li>
+<li>对数据进行处理。收发数据包，具有对数据的分组过滤、复用、加密、压缩及防护墙等各项功能。</li>
+<li>依据路由表的信息，对数据包下一传输目的地进行选择。</li>
+<li>进行外部网关协议和其他<strong>自治域</strong>之间<strong>拓扑信息</strong>的交换。</li>
+<li>实现<strong>网络管理</strong>和<strong>系统支持</strong>功能。<br><img src="/exchange/exchange/work.jpg" alt="work"></li>
+</ol>
+<hr>
+
+<p><img src="/exchange/exchange/A1.jpg" alt="A1"></p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">1.</span> <span class="nav-text">交换机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD"><span class="nav-number">1.1.</span> <span class="nav-text">功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.1.1.</span> <span class="nav-text">学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E5%8F%91-%E8%BF%87%E6%BB%A4"><span class="nav-number">1.1.2.</span> <span class="nav-text">转发&#x2F;过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E9%99%A4%E5%9B%9E%E8%B7%AF"><span class="nav-number">1.1.3.</span> <span class="nav-text">消除回路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FDDI"><span class="nav-number">1.2.</span> <span class="nav-text">FDDI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%97%E4%BD%99%E5%9B%9E%E8%B7%AF"><span class="nav-number">1.3.</span> <span class="nav-text">冗余回路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%91%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.4.</span> <span class="nav-text">树协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%97%E4%BD%99%E9%93%BE%E8%B7%AF"><span class="nav-number">1.4.1.</span> <span class="nav-text">冗余链路</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">路由器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%8A%9F%E8%83%BD"><span class="nav-number">2.1.</span> <span class="nav-text">作用功能</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ziyuexi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ziyuexi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
