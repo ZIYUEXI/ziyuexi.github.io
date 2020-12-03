@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="需要工具VMWARE专业版windowsKALIxshell 前期设置配置IPhttps:&#x2F;&#x2F;ziyuexi.github.io&#x2F;win7-kali&#x2F;win7-kali.html 打开虚拟机中win10的远程连接设置第一步打开虚拟中此电脑右键属性 第二步远程设置 第三步允许远程连接到此计算机并关闭“仅允许运行使用网络级别身份验证的远程计算机连接” 第四步查看用户是否有访问权限 第五步分别在物理机和">
+<meta property="og:type" content="website">
+<meta property="og:title" content="远程连接WIN和KALI">
+<meta property="og:url" content="http://example.com/remote/remote.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="需要工具VMWARE专业版windowsKALIxshell 前期设置配置IPhttps:&#x2F;&#x2F;ziyuexi.github.io&#x2F;win7-kali&#x2F;win7-kali.html 打开虚拟机中win10的远程连接设置第一步打开虚拟中此电脑右键属性 第二步远程设置 第三步允许远程连接到此计算机并关闭“仅允许运行使用网络级别身份验证的远程计算机连接” 第四步查看用户是否有访问权限 第五步分别在物理机和">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/remote/remote/remote1.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote2.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote3.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote4.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote5.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote6.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote18.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote19.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote7.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote9.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote8.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote10.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote11.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote12.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote13.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote14.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote15.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote16.png">
+<meta property="og:image" content="http://example.com/remote/remote/remote17.png">
+<meta property="og:image" content="http://example.com/remote/remote/A1.jpg">
+<meta property="article:published_time" content="2020-12-03T05:28:38.000Z">
+<meta property="article:modified_time" content="2020-12-03T06:51:16.948Z">
+<meta property="article:author" content="ziyuexi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/remote/remote/remote1.png">
+
+<link rel="canonical" href="http://example.com/remote/remote">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>远程连接WIN和KALI | blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">远程连接WIN和KALI
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="需要工具"><a href="#需要工具" class="headerlink" title="需要工具"></a>需要工具</h1><p><strong>VMWARE</strong><br><strong>专业版windows</strong><br><strong>KALI</strong><br><strong>xshell</strong></p>
+<h1 id="前期设置"><a href="#前期设置" class="headerlink" title="前期设置"></a>前期设置</h1><h2 id="配置IP"><a href="#配置IP" class="headerlink" title="配置IP"></a>配置IP</h2><p><a target="_blank" rel="noopener" href="https://ziyuexi.github.io/win7-kali/win7-kali.html">https://ziyuexi.github.io/win7-kali/win7-kali.html</a></p>
+<h2 id="打开虚拟机中win10的远程连接设置"><a href="#打开虚拟机中win10的远程连接设置" class="headerlink" title="打开虚拟机中win10的远程连接设置"></a>打开虚拟机中win10的远程连接设置</h2><h3 id="第一步"><a href="#第一步" class="headerlink" title="第一步"></a>第一步</h3><p><img src="/remote/remote/remote1.png" alt="remote1"><br>打开虚拟中此电脑右键属性</p>
+<h3 id="第二步"><a href="#第二步" class="headerlink" title="第二步"></a>第二步</h3><p><img src="/remote/remote/remote2.png" alt="remote2"><br>远程设置</p>
+<h3 id="第三步"><a href="#第三步" class="headerlink" title="第三步"></a>第三步</h3><p><img src="/remote/remote/remote3.png" alt="remote3"><br>允许远程连接到此计算机<br>并关闭“仅允许运行使用网络级别身份验证的远程计算机连接”</p>
+<h3 id="第四步"><a href="#第四步" class="headerlink" title="第四步"></a>第四步</h3><p><img src="/remote/remote/remote4.png" alt="remote4"><br>查看用户是否有访问权限</p>
+<h3 id="第五步"><a href="#第五步" class="headerlink" title="第五步"></a>第五步</h3><p><img src="/remote/remote/remote5.png" alt="remote5"><br>分别在<strong>物理机</strong>和<strong>虚拟机</strong>上输入</p>
+<blockquote>
+<p>service.msc</p>
+</blockquote>
+<p><img src="/remote/remote/remote6.png" alt="remote6"><br>检查Remote Desktop Services是否在运行且登录为网络服务（<strong>虚拟机</strong>和<strong>物理机</strong>都要进行检查）</p>
+<h2 id="为KALI开启ssh服务"><a href="#为KALI开启ssh服务" class="headerlink" title="为KALI开启ssh服务"></a>为KALI开启ssh服务</h2><h3 id="第一步-1"><a href="#第一步-1" class="headerlink" title="第一步"></a>第一步</h3><p>打开KALI的命令交互页面<br><img src="/remote/remote/remote18.png" alt="remote18"><br>获取ROOT权限后输入</p>
+<blockquote>
+<p>vi /etc/ssh/sshd_config</p>
+</blockquote>
+<p>打开vi编辑器并编辑SSH配置文件</p>
+<h3 id="第二步-1"><a href="#第二步-1" class="headerlink" title="第二步"></a>第二步</h3><p><img src="/remote/remote/remote19.png" alt="remote19"></p>
+<p>将</p>
+<blockquote>
+<p>#PasswordAuthentication yes</p>
+</blockquote>
+<p>的注释去掉（输入a进行插入模式来修改文件）</p>
+<p>然后</p>
+<blockquote>
+<p>#PermitRootLogin without-password</p>
+</blockquote>
+<p>的without-password和#去掉修改为yes</p>
+<blockquote>
+<p>PermitRootLogin yes</p>
+</blockquote>
+<p>然后保存退出先点击ESC退出后输入</p>
+<blockquote>
+<p>:wq</p>
+</blockquote>
+<p>可以达到保存退出目的</p>
+<h3 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h3><p>其实</p>
+<blockquote>
+<p>#PermitRootLogin without-password</p>
+</blockquote>
+<p> 可以不做任何修改</p>
+<h1 id="连接windows"><a href="#连接windows" class="headerlink" title="连接windows"></a>连接windows</h1><h2 id="第一步-2"><a href="#第一步-2" class="headerlink" title="第一步"></a>第一步</h2><p>开启虚拟机的windows专业版并确认<strong>IP地址</strong><br><img src="/remote/remote/remote7.png" alt="remote7"></p>
+<h2 id="第二步-2"><a href="#第二步-2" class="headerlink" title="第二步"></a>第二步</h2><p>打开物理机的远程桌面连接系统并输入目标虚拟机的IP<br><img src="/remote/remote/remote9.png" alt="remote9"></p>
+<h2 id="第三步-1"><a href="#第三步-1" class="headerlink" title="第三步"></a>第三步</h2><p><img src="/remote/remote/remote8.png" alt="remote8"><br>输入创建虚拟机的时候设置的密码（必须要有密码）</p>
+<h2 id="第四步-1"><a href="#第四步-1" class="headerlink" title="第四步"></a>第四步</h2><p><img src="/remote/remote/remote10.png" alt="remote10"><br>选“是”通过</p>
+<h2 id="第五步-1"><a href="#第五步-1" class="headerlink" title="第五步"></a>第五步</h2><p><img src="/remote/remote/remote11.png" alt="remote11"></p>
+<p>第一次时间可能有点长，之后我们就连接到了win10专业版</p>
+<h1 id="连接KALI"><a href="#连接KALI" class="headerlink" title="连接KALI"></a>连接KALI</h1><h2 id="第一步-3"><a href="#第一步-3" class="headerlink" title="第一步"></a>第一步</h2><p>确认虚拟机KALI的IP地址<br><img src="/remote/remote/remote12.png" alt="remote12"></p>
+<h2 id="第二步-3"><a href="#第二步-3" class="headerlink" title="第二步"></a>第二步</h2><p><img src="/remote/remote/remote13.png" alt="remote13"><br>打开xshell并新建会话选择ssh输入KALI的IP地址并点击连接</p>
+<h2 id="第三步-2"><a href="#第三步-2" class="headerlink" title="第三步"></a>第三步</h2><p><img src="/remote/remote/remote14.png" alt="remote14"><br>输入KALI的用户名（创建虚拟机的时候起的）</p>
+<h2 id="第四步-2"><a href="#第四步-2" class="headerlink" title="第四步"></a>第四步</h2><p><img src="/remote/remote/remote15.png" alt="remote15"><br>输入KALI密码（创建虚拟机的时候设置的）</p>
+<h2 id="第五步-2"><a href="#第五步-2" class="headerlink" title="第五步"></a>第五步</h2><p><img src="/remote/remote/remote16.png" alt="remote16"><br>可以发现弹出的交互页面有些眼熟，正是KALI的交互页面</p>
+<p><img src="/remote/remote/remote17.png" alt="remote17"><br>我们可以正常输入KALI的命令<br>例如</p>
+<blockquote>
+<p>sudo su</p>
+</blockquote>
+<p>来获取KALI的ROOT权限</p>
+<hr>
+
+<p><img src="/remote/remote/A1.jpg" alt="A1"></p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E5%B7%A5%E5%85%B7"><span class="nav-number">1.</span> <span class="nav-text">需要工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E6%9C%9F%E8%AE%BE%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">前期设置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEIP"><span class="nav-number">2.1.</span> <span class="nav-text">配置IP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E8%99%9A%E6%8B%9F%E6%9C%BA%E4%B8%ADwin10%E7%9A%84%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5%E8%AE%BE%E7%BD%AE"><span class="nav-number">2.2.</span> <span class="nav-text">打开虚拟机中win10的远程连接设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5"><span class="nav-number">2.2.1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5"><span class="nav-number">2.2.2.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5"><span class="nav-number">2.2.3.</span> <span class="nav-text">第三步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5"><span class="nav-number">2.2.4.</span> <span class="nav-text">第四步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5"><span class="nav-number">2.2.5.</span> <span class="nav-text">第五步</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BAKALI%E5%BC%80%E5%90%AFssh%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.3.</span> <span class="nav-text">为KALI开启ssh服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-1"><span class="nav-number">2.3.1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-1"><span class="nav-number">2.3.2.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PS"><span class="nav-number">2.3.3.</span> <span class="nav-text">PS</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5windows"><span class="nav-number">3.</span> <span class="nav-text">连接windows</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-2"><span class="nav-number">3.1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-2"><span class="nav-number">3.2.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5-1"><span class="nav-number">3.3.</span> <span class="nav-text">第三步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5-1"><span class="nav-number">3.4.</span> <span class="nav-text">第四步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5-1"><span class="nav-number">3.5.</span> <span class="nav-text">第五步</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5KALI"><span class="nav-number">4.</span> <span class="nav-text">连接KALI</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-3"><span class="nav-number">4.1.</span> <span class="nav-text">第一步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-3"><span class="nav-number">4.2.</span> <span class="nav-text">第二步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5-2"><span class="nav-number">4.3.</span> <span class="nav-text">第三步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5-2"><span class="nav-number">4.4.</span> <span class="nav-text">第四步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5-2"><span class="nav-number">4.5.</span> <span class="nav-text">第五步</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ziyuexi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ziyuexi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
